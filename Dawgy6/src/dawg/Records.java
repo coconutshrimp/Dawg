@@ -4,12 +4,19 @@
 package dawg;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.ButtonModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -51,7 +58,12 @@ public class Records extends JPanel {
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// Create a list of previous contests
-		String[] contests = { "2021", "2022", "Current Contest"};
+		ArrayList<String> Acontests = new ArrayList<String>();
+		Acontests.add("2021");
+		Acontests.add("2022");
+		Acontests.add("Current Contest");
+
+		String[] contests = Acontests.toArray(new String[Acontests.size()]);
 		
 		contestsList = new JList<>(contests);
 		contestsList.addListSelectionListener(new RecordsViewListener());
@@ -59,7 +71,24 @@ public class Records extends JPanel {
 		contestsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JScrollPane listScrollPane = new JScrollPane(contestsList);
-
+		
+		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JTextField contestField = new JTextField(20);
+		bottomPanel.add(contestField);
+		JButton button = new JButton("New Contest");
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Acontests.add(contestField.getText());
+				String[] newcontests = Acontests.toArray(new String[Acontests.size()]);
+				contestsList.setListData(newcontests);
+			}
+		});
+		bottomPanel.add(button);
+		add(bottomPanel, BorderLayout.SOUTH);
+		add(titleLabel, BorderLayout.NORTH);
+		add(listScrollPane, BorderLayout.CENTER);
 		
 		add(titleLabel, BorderLayout.NORTH);
 		add(listScrollPane, BorderLayout.CENTER);

@@ -179,6 +179,8 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 
 			if (FinalizeRegister == true) {
 				System.out.println("Dog Made");
+				contest.addDog(register.getReg().getNameField().getText());
+				
 				ActualDog x = new ActualDog(register.getReg(), register.getCbp(), register.getDnDImagePanel());
 				register.getReg().setNameField("Enter name");
 				register.getReg().setIdField("Enter ID");
@@ -186,7 +188,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 				register.getReg().setOwnerField("Enter owner's name");
 				register.getCbp().reset();
 
-				x.getName();
+				
 			}
 
 			break;

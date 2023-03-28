@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.JButton;
@@ -23,6 +24,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  * @author jammavi
@@ -37,18 +40,32 @@ public class ContestView extends JPanel {
 	private JTextField judge1Field = new JTextField("0", 2);
 	private JTextField judge2Field, judge3Field, judge4Field, judge5Field, median, nameField;
 	private int med;
+	
+	
+	//private JComboBox<String> = new String[] {"Place"
 
-	String[] dogNames = { "Add Dog Name", "test1", "test2", "test3" };
+	ArrayList<String> alist = new ArrayList<String>();
+	
+	String[] dogNames = alist.toArray(new String[alist.size()]);
+	
 	private JComboBox<String> dogList = new JComboBox<String>(dogNames);
 
 	public ContestView() {
 		this.controller = ControllingFrame.getInstance();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
+		alist.add("Dog Name");
+		dogNames = alist.toArray(new String[alist.size()]);
+		dogList = new JComboBox<String>(dogNames);
 		addComponents();
 	}
-
+	
+	public void addDog(String name) {
+		alist.add(name);
+		dogNames = alist.toArray(new String[alist.size()]);
+		dogList.setModel(new DefaultComboBoxModel<String>(dogNames));
+	}
+	
 	private class ContestViewFocusListener implements FocusListener {
 
 		private JTextField textField;
@@ -62,8 +79,9 @@ public class ContestView extends JPanel {
 			String str = textField.getText();
 			if (str.equalsIgnoreCase("Enter Score (0-10)")) {
 				textField.setText("");
-				System.out.println("Test");
+				
 			}
+			
 		}
 
 		@Override
@@ -71,9 +89,12 @@ public class ContestView extends JPanel {
 			if (textField.getText().equals("")) {
 				textField.setText("Enter Score (0-10)");
 			}
+			calculateMedian();
 
 		}
 	}
+	
+	
 
 	private class ContestViewKeyListener implements KeyListener {
 
@@ -177,6 +198,14 @@ public class ContestView extends JPanel {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
+		JLabel contestlabel = new JLabel("Contest: ", JLabel.CENTER);
+		contestlabel.setLabelFor(contestlabel);
+		
+		JLabel categorylabel = new JLabel("Category: ", JLabel.CENTER);
+		categorylabel.setLabelFor(categorylabel);
+		
+		
+		
 		JLabel dLabel = new JLabel("Dog Name: ", JLabel.CENTER);
 		dLabel.setLabelFor(nameField);
 
@@ -263,4 +292,6 @@ public class ContestView extends JPanel {
 		);
 
 	}
+
+
 }
