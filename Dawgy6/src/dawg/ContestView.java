@@ -40,15 +40,18 @@ public class ContestView extends JPanel {
 	private JTextField judge1Field = new JTextField("0", 2);
 	private JTextField judge2Field, judge3Field, judge4Field, judge5Field, median, nameField;
 	private int med;
+	private Records record;
 	
+	ArrayList<String> clist = new ArrayList<String>();
 	
-	//private JComboBox<String> = new String[] {"Place"
+	String [] contestNames = clist.toArray(new String[clist.size()]);
 
 	ArrayList<String> alist = new ArrayList<String>();
 	
 	String[] dogNames = alist.toArray(new String[alist.size()]);
 	
 	private JComboBox<String> dogList = new JComboBox<String>(dogNames);
+	private JComboBox<String> contestList = new JComboBox<String>(dogNames);
 
 	public ContestView() {
 		this.controller = ControllingFrame.getInstance();
@@ -57,7 +60,17 @@ public class ContestView extends JPanel {
 		alist.add("Dog Name");
 		dogNames = alist.toArray(new String[alist.size()]);
 		dogList = new JComboBox<String>(dogNames);
+		
+		
+		contestNames = clist.toArray(new String[clist.size()]);
+		contestList = new JComboBox<String>(contestNames);
+		
 		addComponents();
+	}
+	public void setArray(ArrayList<String> x) {
+		clist = x;
+		contestNames = clist.toArray(new String[clist.size()]);
+		contestList.setModel(new DefaultComboBoxModel<String>(contestNames));
 	}
 	
 	public void addDog(String name) {
@@ -65,6 +78,7 @@ public class ContestView extends JPanel {
 		dogNames = alist.toArray(new String[alist.size()]);
 		dogList.setModel(new DefaultComboBoxModel<String>(dogNames));
 	}
+	
 	
 	private class ContestViewFocusListener implements FocusListener {
 
@@ -256,12 +270,13 @@ public class ContestView extends JPanel {
 		judge5Field.addFocusListener(new ContestViewFocusListener(judge5Field));
 
 		dogList.setPreferredSize(new Dimension(10, 10));
+		contestList.setPreferredSize(new Dimension(10, 10));
 
 		layout.setHorizontalGroup(layout.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dLabel)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dLabel).addComponent(contestlabel)
 						.addComponent(label1).addComponent(label2).addComponent(label3).addComponent(label4)
 						.addComponent(label5).addComponent(label6))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(dogList)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(dogList).addComponent(contestList)
 						.addComponent(judge1Field).addComponent(judge2Field).addComponent(judge3Field)
 						.addComponent(judge4Field).addComponent(judge5Field).addComponent(median)
 						.addComponent(finalizeButton)));
@@ -269,6 +284,9 @@ public class ContestView extends JPanel {
 				.addGroup(layout
 						.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(dLabel).addComponent(dogList))
 				.addGap(25)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(contestlabel)
+						.addComponent(contestList))
+				.addGap(20)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(label1)
 						.addComponent(judge1Field))
 				.addGap(20)

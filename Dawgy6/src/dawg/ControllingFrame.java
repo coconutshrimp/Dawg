@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -102,6 +103,12 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 				instance.setTitle(title);
 		}
 		return instance;
+	}
+	
+	public void sendArray(){
+		System.out.println(records.getArray());
+		contest.setArray(records.getArray());
+		
 	}
 
 	private void addComponents() {
@@ -232,6 +239,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 			if (o instanceof JButton) {
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Records");
+				
 			}
 			break;
 
@@ -249,6 +257,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Contest View");
+				sendArray();
 			}
 			break;
 

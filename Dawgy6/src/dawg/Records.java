@@ -30,11 +30,17 @@ public class Records extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JList<String> contestsList;
+	private ArrayList<String> Acontests = new ArrayList<String>();
 
 	public Records() {
-
+		
 		addComponents();
 
+	}
+	
+	public ArrayList<String> getArray(){
+		return Acontests;
+		
 	}
 
 	private class RecordsViewListener implements ListSelectionListener {
@@ -58,7 +64,7 @@ public class Records extends JPanel {
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// Create a list of previous contests
-		ArrayList<String> Acontests = new ArrayList<String>();
+		
 		Acontests.add("2021");
 		Acontests.add("2022");
 		Acontests.add("Current Contest");
