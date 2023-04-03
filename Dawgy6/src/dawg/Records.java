@@ -31,6 +31,8 @@ public class Records extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JList<String> contestsList;
 	private ArrayList<String> Acontests = new ArrayList<String>();
+	
+	private ControllingFrame controller;
 
 	public Records() {
 		
@@ -41,6 +43,10 @@ public class Records extends JPanel {
 	public ArrayList<String> getArray(){
 		return Acontests;
 		
+	}
+	
+	public String getName() {
+		return Acontests.get(Acontests.size()-1);
 	}
 
 	private class RecordsViewListener implements ListSelectionListener {
@@ -82,15 +88,22 @@ public class Records extends JPanel {
 		JTextField contestField = new JTextField(20);
 		bottomPanel.add(contestField);
 		JButton button = new JButton("New Contest");
+		button.addActionListener(controller);
+		button.setActionCommand("New");
 		button.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//contest.addContest(contestField.getText());
 				Acontests.add(contestField.getText());
 				String[] newcontests = Acontests.toArray(new String[Acontests.size()]);
 				contestsList.setListData(newcontests);
+				contestField.setText("");
 			}
 		});
+		
+		
+		
 		bottomPanel.add(button);
 		add(bottomPanel, BorderLayout.SOUTH);
 		add(titleLabel, BorderLayout.NORTH);

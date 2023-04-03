@@ -106,10 +106,14 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 	}
 	
 	public void sendArray(){
-		System.out.println(records.getArray());
 		contest.setArray(records.getArray());
 		
 	}
+	
+	public void sendContest() {
+		contest.addContest(records.getName());
+	}
+	
 
 	private void addComponents() {
 
@@ -258,6 +262,8 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Contest View");
 				sendArray();
+				sendContest();
+				
 			}
 			break;
 
@@ -277,8 +283,16 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 			}
 			break;
 
-		}
+		case "New":
+			if (o instanceof JButton) {
 
+			System.out.println("Hooray");
+			}
+			break;
+		}
+		
+		
+		
 	}
 
 	@Override

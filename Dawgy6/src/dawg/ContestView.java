@@ -8,6 +8,8 @@ package dawg;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -42,6 +44,12 @@ public class ContestView extends JPanel {
 	private int med;
 	private Records record;
 	
+	ArrayList<ContestsClass> list = new ArrayList<ContestsClass>();
+	
+	ContestsClass x;
+	
+	private ContestsClass x1, x2, x3;
+	
 	ArrayList<String> clist = new ArrayList<String>();
 	
 	String [] contestNames = clist.toArray(new String[clist.size()]);
@@ -50,13 +58,22 @@ public class ContestView extends JPanel {
 	
 	String[] dogNames = alist.toArray(new String[alist.size()]);
 	
+	ArrayList<ContestsClass> actualContest = new ArrayList<ContestsClass>();
+	
+	String [] categories = {"Select a category", "Grooming", "Obedience", "Socialization", "Fetch"};
+	
+	
 	private JComboBox<String> dogList = new JComboBox<String>(dogNames);
-	private JComboBox<String> contestList = new JComboBox<String>(dogNames);
+	private JComboBox<String> contestList = new JComboBox<String>(contestNames);
+	private JComboBox<String> categoryList = new JComboBox<String>(categories);
+	
+	ArrayList<ContestsClass> contestsWithDog= new ArrayList<>();
 
 	public ContestView() {
 		this.controller = ControllingFrame.getInstance();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		alist.add("Dog Name");
 		dogNames = alist.toArray(new String[alist.size()]);
 		dogList = new JComboBox<String>(dogNames);
@@ -64,6 +81,15 @@ public class ContestView extends JPanel {
 		
 		contestNames = clist.toArray(new String[clist.size()]);
 		contestList = new JComboBox<String>(contestNames);
+		
+		dogList.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selected = (String) dogList.getSelectedItem();
+				//for(ContestsClass actualContestsClass
+			}
+		});
 		
 		addComponents();
 	}
@@ -73,8 +99,12 @@ public class ContestView extends JPanel {
 		contestList.setModel(new DefaultComboBoxModel<String>(contestNames));
 	}
 	
+	
+
+
 	public void addDog(String name) {
 		alist.add(name);
+		
 		dogNames = alist.toArray(new String[alist.size()]);
 		dogList.setModel(new DefaultComboBoxModel<String>(dogNames));
 	}
@@ -203,6 +233,10 @@ public class ContestView extends JPanel {
 		}
 
 	}
+	
+	public void addContest(String name) {
+		actualContest.add(new ContestsClass(name));
+	}
 
 	private void addComponents() {
 		// setBackground(Color.BLACK);
@@ -242,8 +276,26 @@ public class ContestView extends JPanel {
 		label6.setLabelFor(median);
 
 		JButton finalizeButton = new JButton("Finalize Score");
-		finalizeButton.addActionListener(controller);
-		finalizeButton.setActionCommand("Finalize");
+		finalizeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = (String) dogList.getSelectedItem(), m = median.getText(), c = (String)contestList.getSelectedItem();
+				System.out.println(actualContest.size());
+				//ContestsClass x = new ContestsClass(nameField.getText(), median.getText(), (String)categoryList.getSelectedItem());
+				for(int i = 0; i < actualContest.size(); i++) {
+					
+					switch((String)categoryList.getSelectedItem()) {
+					case "Grooming":
+						actualContest.get(i).Grooming(c, name, Integer.parseInt(m));
+					}
+				}
+				
+				
+			}
+		});
+		
+		
 
 		judge1Field = new JTextField("Enter Score (0-10)");
 		judge1Field.addKeyListener(new ContestViewKeyListener(judge1Field));
@@ -273,19 +325,23 @@ public class ContestView extends JPanel {
 		contestList.setPreferredSize(new Dimension(10, 10));
 
 		layout.setHorizontalGroup(layout.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dLabel).addComponent(contestlabel)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dLabel).addComponent(contestlabel).addComponent(categorylabel)
 						.addComponent(label1).addComponent(label2).addComponent(label3).addComponent(label4)
 						.addComponent(label5).addComponent(label6))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(dogList).addComponent(contestList)
-						.addComponent(judge1Field).addComponent(judge2Field).addComponent(judge3Field)
+						.addComponent(categoryList).addComponent(judge1Field).addComponent(judge2Field).addComponent(judge3Field)
 						.addComponent(judge4Field).addComponent(judge5Field).addComponent(median)
 						.addComponent(finalizeButton)));
 		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addGroup(layout
 						.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(dLabel).addComponent(dogList))
 				.addGap(25)
+				
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(contestlabel)
 						.addComponent(contestList))
+				.addGap(20)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(categorylabel)
+						.addComponent(categoryList))
 				.addGap(20)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(label1)
 						.addComponent(judge1Field))
@@ -310,6 +366,6 @@ public class ContestView extends JPanel {
 		);
 
 	}
-
+	
 
 }
