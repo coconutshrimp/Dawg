@@ -45,9 +45,7 @@ public class Records extends JPanel {
 		
 	}
 	
-	public String getName() {
-		return Acontests.get(Acontests.size()-1);
-	}
+
 
 	private class RecordsViewListener implements ListSelectionListener {
 

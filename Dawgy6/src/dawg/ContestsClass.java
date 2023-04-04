@@ -24,9 +24,9 @@ public class ContestsClass {
 	}
 	
 	//Update Grooming
-	public void Grooming(String contestName, String dogName, int score)
+	public void Grooming(String dogName, int score)
 	{
-		System.out.println(contestName + dogName + score);
+		System.out.println(dogName + score);
 	}
 
 	public void setName(String name) {

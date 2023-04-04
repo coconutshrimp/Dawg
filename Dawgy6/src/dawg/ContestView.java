@@ -50,9 +50,9 @@ public class ContestView extends JPanel {
 	
 	private ContestsClass x1, x2, x3;
 	
-	ArrayList<String> clist = new ArrayList<String>();
 	
-	String [] contestNames = clist.toArray(new String[clist.size()]);
+	
+	
 
 	ArrayList<String> alist = new ArrayList<String>();
 	
@@ -64,7 +64,6 @@ public class ContestView extends JPanel {
 	
 	
 	private JComboBox<String> dogList = new JComboBox<String>(dogNames);
-	private JComboBox<String> contestList = new JComboBox<String>(contestNames);
 	private JComboBox<String> categoryList = new JComboBox<String>(categories);
 	
 	ArrayList<ContestsClass> contestsWithDog= new ArrayList<>();
@@ -79,8 +78,8 @@ public class ContestView extends JPanel {
 		dogList = new JComboBox<String>(dogNames);
 		
 		
-		contestNames = clist.toArray(new String[clist.size()]);
-		contestList = new JComboBox<String>(contestNames);
+		
+		
 		
 		dogList.addActionListener(new ActionListener() {
 			
@@ -112,11 +111,7 @@ public class ContestView extends JPanel {
 		
 		addComponents();
 	}
-	public void setArray(ArrayList<String> x) {
-		clist = x;
-		contestNames = clist.toArray(new String[clist.size()]);
-		contestList.setModel(new DefaultComboBoxModel<String>(contestNames));
-	}
+	
 	
 	
 
@@ -262,10 +257,7 @@ public class ContestView extends JPanel {
 
 	}
 	
-	public void addContest(String name) {
-		actualContest.add(new ContestsClass(name));
-	}
-
+	
 	private void addComponents() {
 		// setBackground(Color.BLACK);
 
@@ -274,8 +266,7 @@ public class ContestView extends JPanel {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		JLabel contestlabel = new JLabel("Contest: ", JLabel.CENTER);
-		contestlabel.setLabelFor(contestlabel);
+	
 		
 		JLabel categorylabel = new JLabel("Category: ", JLabel.CENTER);
 		categorylabel.setLabelFor(categorylabel);
@@ -308,14 +299,14 @@ public class ContestView extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name = (String) dogList.getSelectedItem(), m = median.getText(), c = (String)contestList.getSelectedItem();
+				String name = (String) dogList.getSelectedItem(), m = median.getText();
 				System.out.println(actualContest.get(0).getDogCount());
 				//ContestsClass x = new ContestsClass(nameField.getText(), median.getText(), (String)categoryList.getSelectedItem());
 				for(int i = 0; i < actualContest.size(); i++) {
 					
 					switch((String)categoryList.getSelectedItem()) {
 					case "Grooming":
-						actualContest.get(i).Grooming(c, name, Integer.parseInt(m));
+						actualContest.get(i).Grooming(name, Integer.parseInt(m));
 					}
 				}
 				
@@ -350,13 +341,13 @@ public class ContestView extends JPanel {
 		judge5Field.addFocusListener(new ContestViewFocusListener(judge5Field));
 
 		dogList.setPreferredSize(new Dimension(10, 10));
-		contestList.setPreferredSize(new Dimension(10, 10));
+		
 
 		layout.setHorizontalGroup(layout.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dLabel).addComponent(contestlabel).addComponent(categorylabel)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dLabel).addComponent(categorylabel)
 						.addComponent(label1).addComponent(label2).addComponent(label3).addComponent(label4)
 						.addComponent(label5).addComponent(label6))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(dogList).addComponent(contestList)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(dogList)
 						.addComponent(categoryList).addComponent(judge1Field).addComponent(judge2Field).addComponent(judge3Field)
 						.addComponent(judge4Field).addComponent(judge5Field).addComponent(median)
 						.addComponent(finalizeButton)));
@@ -364,10 +355,6 @@ public class ContestView extends JPanel {
 				.addGroup(layout
 						.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(dLabel).addComponent(dogList))
 				.addGap(25)
-				
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(contestlabel)
-						.addComponent(contestList))
-				.addGap(20)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(categorylabel)
 						.addComponent(categoryList))
 				.addGap(20)

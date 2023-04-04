@@ -106,14 +106,9 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 		return instance;
 	}
 	
-	public void sendArray(){
-		contest.setArray(records.getArray());
-		
-	}
 	
-	public void sendContest() {
-		contest.addContest(records.getName());
-	}
+	
+	
 	
 
 	private void addComponents() {
@@ -266,8 +261,8 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Contest View");
-				sendArray();
-				sendContest();
+				
+				
 				
 			}
 			break;
