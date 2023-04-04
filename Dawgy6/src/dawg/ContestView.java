@@ -87,9 +87,16 @@ public class ContestView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String selected = (String) dogList.getSelectedItem();
-				//for(ContestsClass actualContestsClass
+				for(int i = 0; i < actualContest.size(); i++) {
+					if(actualContest.get(i).getName().equals("Current Contest")) {
+						ActualDog y = actualContest.get(i).findDog(selected);
+						//if(y.isGrooming())
+					}
+				}
 			}
 		});
+		
+		actualContest.add(new ContestsClass("Current Contest"));
 		
 		addComponents();
 	}
@@ -102,11 +109,20 @@ public class ContestView extends JPanel {
 	
 
 
-	public void addDog(String name) {
+	public void addDog(String name, String id, String owner, String gender, boolean groom,
+			boolean obedience, boolean social, boolean fetch) {
 		alist.add(name);
 		
 		dogNames = alist.toArray(new String[alist.size()]);
 		dogList.setModel(new DefaultComboBoxModel<String>(dogNames));
+		for(int i = 0; i < actualContest.size(); i++) {
+			if(actualContest.get(i).getName().equals("Current Contest")) {
+				actualContest.get(i).addDog(name, id, owner, gender, groom, obedience, social, fetch);
+			}
+				
+		}
+			
+		
 	}
 	
 	
@@ -281,7 +297,7 @@ public class ContestView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = (String) dogList.getSelectedItem(), m = median.getText(), c = (String)contestList.getSelectedItem();
-				System.out.println(actualContest.size());
+				System.out.println(actualContest.get(0).getDogCount());
 				//ContestsClass x = new ContestsClass(nameField.getText(), median.getText(), (String)categoryList.getSelectedItem());
 				for(int i = 0; i < actualContest.size(); i++) {
 					

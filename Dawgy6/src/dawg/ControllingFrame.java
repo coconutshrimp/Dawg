@@ -59,6 +59,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 	private Records records;
 	private boolean FinalizeRegister;
 	private static RecordsTable table;
+	private ContestsClass contestclass;
 
 	private static ControllingFrame instance = null;
 
@@ -141,6 +142,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 		register = new RegisterContainer(this);
 		records = new Records();
 		table = new RecordsTable();
+		
 
 		informationPanel.add(authScreen, "TITLE");
 		informationPanel.add(contest, "Contest View");
@@ -190,9 +192,12 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 
 			if (FinalizeRegister == true) {
 				System.out.println("Dog Made");
-				contest.addDog(register.getReg().getNameField().getText());
+				contest.addDog(register.getReg().getNameField().getText(), register.getReg().getIdField().getText(), register.getReg().getOwnerField().getText(), 
+						register.getReg().getGenderDropDown(), register.getCbp().getGrooming(), register.getCbp().getObedience(), register.getCbp().getSocialization(),
+						register.getCbp().getFetch());
+				//contest.
+				//ActualDog x = new ActualDog(register.getReg(), register.getCbp(), register.getDnDImagePanel());\
 				
-				ActualDog x = new ActualDog(register.getReg(), register.getCbp(), register.getDnDImagePanel());
 				register.getReg().setNameField("Enter name");
 				register.getReg().setIdField("Enter ID");
 				register.getReg().setGenderDropDown();

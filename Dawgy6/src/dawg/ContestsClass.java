@@ -47,13 +47,34 @@ public class ContestsClass {
 		return DogCount;
 	}
 	
+	public ActualDog findDog(String name)
+	{
+		for(int i = 0; i < DogCount; i++) {
+			if(doglist.get(i).getName().equals(name))
+				return doglist.get(i);
+		}
+		
+		return doglist.get(0);
+	}
+	
+	public void addDog(String name, String id, String owner, String gender, boolean groom,
+			boolean obedience, boolean social, boolean fetch) {
+		ActualDog x = new ActualDog(name, id, owner, gender, groom, obedience, social, fetch);
+		doglist.add(x);
+		DogCount++;
+		for(int i = 0; i < DogCount; i++) {
+			System.out.println(doglist.get(i).getName());
+		}
+		
+	}
+	
 	
 //	public String[] getDogs() {
 //		ArrayList<String> temp = new ArrayList<String>();
 //		for(int i = 0; i < this.getDogCount(); i++) {
-//			//temp.add(name)
+//			temp.add(name)
 //		}
 //	}
-	
+//	
 	
 }

@@ -28,6 +28,21 @@ public class ActualDog implements Serializable {
 				+ fetch + " Grooming: " + grooming + " Socialization: " + socialization + " Obedience: " + obedience + " Image: " + image);
 
 	}
+	
+	public ActualDog(String name, String id, String owner, String gender, boolean groom,
+			boolean obedience, boolean social, boolean fetch) {
+		this.name = name;
+		this.id = id;
+		this.owner = owner;
+		this.gender = gender;
+		this.grooming = groom;
+		this.obedience = obedience;
+		this.socialization = social;
+		this.fetch = fetch;
+		
+	}
+	
+	
 
 	
 	
