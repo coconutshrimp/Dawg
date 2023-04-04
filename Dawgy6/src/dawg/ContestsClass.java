@@ -26,7 +26,9 @@ public class ContestsClass {
 	//Update Grooming
 	public void Grooming(String dogName, int score)
 	{
-		System.out.println(dogName + score);
+		for(int i = 0; i < DogCount; i++)
+			if(doglist.get(i).getName().equals(dogName))
+				doglist.get(i).setgScore(score);
 	}
 
 	public void setName(String name) {
@@ -67,6 +69,18 @@ public class ContestsClass {
 		}
 		
 	}
+
+
+	public int getGroomScore(String name) {
+		for(int i = 0; i < DogCount; i++) {
+			if(doglist.get(i).getName().equals(name))
+				return doglist.get(i).getgScore();
+			
+		}
+		return 0;
+	}
+	
+	
 	
 	
 //	public String[] getDogs() {

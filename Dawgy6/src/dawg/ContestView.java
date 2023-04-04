@@ -107,9 +107,13 @@ public class ContestView extends JPanel {
 			}
 		});
 		
-		actualContest.add(new ContestsClass("Current Contest"));
 		
+		
+		
+		actualContest.add(new ContestsClass("Current Contest"));
 		addComponents();
+		
+		
 	}
 	
 	
@@ -131,6 +135,8 @@ public class ContestView extends JPanel {
 			
 		
 	}
+	
+	
 	
 	
 	private class ContestViewFocusListener implements FocusListener {
@@ -227,7 +233,7 @@ public class ContestView extends JPanel {
 
 		// check is any of the test are not digits
 		if (isNumber(text1, text2, text3, text4, text5)) {
-			System.out.println("Numbers");
+			
 			int val1 = Integer.parseInt(text1);
 			int val2 = Integer.parseInt(text2);
 			int val3 = Integer.parseInt(text3);
@@ -248,11 +254,11 @@ public class ContestView extends JPanel {
 				int middleIndex = array.size() / 2;
 				med = array.get(middleIndex);
 				median.setText(String.valueOf(med));
-				System.out.println(med);
+				
 			}
 
 		} else {
-			System.out.println("Nums only");
+			
 		}
 
 	}
@@ -260,7 +266,7 @@ public class ContestView extends JPanel {
 	
 	private void addComponents() {
 		// setBackground(Color.BLACK);
-
+		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
 		layout.setAutoCreateGaps(true);
@@ -301,12 +307,17 @@ public class ContestView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String name = (String) dogList.getSelectedItem(), m = median.getText();
 				System.out.println(actualContest.get(0).getDogCount());
+				if(areFieldsValid()) {
+					clearFields();
+				}
 				//ContestsClass x = new ContestsClass(nameField.getText(), median.getText(), (String)categoryList.getSelectedItem());
 				for(int i = 0; i < actualContest.size(); i++) {
 					
 					switch((String)categoryList.getSelectedItem()) {
 					case "Grooming":
 						actualContest.get(i).Grooming(name, Integer.parseInt(m));
+						finalizeButton.setEnabled(false);
+						break;
 					}
 				}
 				
@@ -314,24 +325,138 @@ public class ContestView extends JPanel {
 			}
 		});
 		
-		
+		categoryList.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < actualContest.size(); i++) {
+					//System.out.println(actualContest.get(i).getGroomScore((String) dogList.getSelectedItem()));
+					if (actualContest.get(i).getGroomScore((String) dogList.getSelectedItem()) != 0)
+						finalizeButton.setEnabled(false);
+					else
+						finalizeButton.setEnabled(true);
+
+				}
+			}
+		});
 
 		judge1Field = new JTextField("Enter Score (0-10)");
 		judge1Field.addKeyListener(new ContestViewKeyListener(judge1Field));
-
+		judge1Field.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();				
+			}
+		});
 		judge2Field = new JTextField("Enter Score (0-10)", 2);
 		judge2Field.addKeyListener(new ContestViewKeyListener(judge2Field));
-
+		
+		judge2Field.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();				
+			}
+		});
 		judge3Field = new JTextField("Enter Score (0-10)", 2);
 		judge3Field.addKeyListener(new ContestViewKeyListener(judge3Field));
-
+		
+		judge3Field.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();				
+			}
+		});
 		judge4Field = new JTextField("Enter Score (0-10)", 2);
 		judge4Field.addKeyListener(new ContestViewKeyListener(judge4Field));
-
+		
+		judge4Field.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();				
+			}
+		});	
 		judge5Field = new JTextField("Enter Score (0-10)", 2);
 		judge5Field.addKeyListener(new ContestViewKeyListener(judge5Field));
-
-		median = new JTextField("Press Enter to calculate", 2);
+		
+		judge5Field.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if(areFieldsValid())
+					calculateMedian();				
+			}
+		});
+		median = new JTextField("", 2);
 		median.setEditable(false);
 
 		judge1Field.addFocusListener(new ContestViewFocusListener(judge1Field));
@@ -339,7 +464,8 @@ public class ContestView extends JPanel {
 		judge3Field.addFocusListener(new ContestViewFocusListener(judge3Field));
 		judge4Field.addFocusListener(new ContestViewFocusListener(judge4Field));
 		judge5Field.addFocusListener(new ContestViewFocusListener(judge5Field));
-
+		
+		
 		dogList.setPreferredSize(new Dimension(10, 10));
 		
 
@@ -380,6 +506,31 @@ public class ContestView extends JPanel {
 
 		);
 
+	}
+
+
+
+
+
+	protected void clearFields() {
+		judge1Field.setText("Enter Score (0-10)");
+		judge2Field.setText("Enter Score (0-10)");
+		judge3Field.setText("Enter Score (0-10)");
+		judge4Field.setText("Enter Score (0-10)");
+		judge5Field.setText("Enter Score (0-10)");
+		median.setText("");
+		
+		
+	}
+
+
+
+
+
+	protected boolean areFieldsValid() {
+		return isNumber(judge1Field.getText(), judge2Field.getText(), judge3Field.getText(), judge4Field.getText()
+				, judge5Field.getText());
+		
 	}
 	
 

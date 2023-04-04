@@ -11,7 +11,8 @@ public class ActualDog implements Serializable {
 	private static final long serialVersionUID = 1L;
 	String name, id, owner, gender;
 	BufferedImage image;
-	boolean grooming, obedience, socialization, fetch, committed;
+	boolean grooming, obedience, socialization, fetch;
+	int gScore, oScore, sScore, fScore;
 
 	public ActualDog(Register reg, CheckBoxPanel cbp, DnDImagePanel dnd) {
 		name = reg.getNameField().getText();
@@ -23,7 +24,7 @@ public class ActualDog implements Serializable {
 		socialization = cbp.getSocialization();
 		obedience = cbp.getObedience();
 		image = dnd.getImage();
-		committed = false;
+		
 		
 		
 		System.out.println("Name: " + name + " Owner: " + owner + " Gender: " + gender + " ID: " + id + " Fetch: "
@@ -41,12 +42,45 @@ public class ActualDog implements Serializable {
 		this.obedience = obedience;
 		this.socialization = social;
 		this.fetch = fetch;
-		committed = false;
+		gScore = 0;
+		oScore = 0;
+		sScore = 0; 
+		fScore = 0;
+		
 		
 	}
 	
+	public int getgScore() {
+		return gScore;
+	}
 	
-
+	public int getoScore() {
+		return oScore;
+	}
+	
+	public int getsScore() {
+		return sScore;
+	}
+	
+	public int getfScore() {
+		return fScore;
+	}
+	
+	public void setgScore(int score) {
+		gScore = score;
+	}
+	
+	public void setoScore(int score) {
+		gScore = score;
+	}
+	
+	public void setsScore(int score) {
+		gScore = score;
+	}
+	
+	public void setfScore(int score) {
+		gScore = score;
+	}
 	
 	
 	public String getName() {

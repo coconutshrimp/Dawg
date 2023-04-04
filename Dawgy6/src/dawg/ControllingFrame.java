@@ -59,7 +59,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 	private Records records;
 	private boolean FinalizeRegister;
 	private static RecordsTable table;
-	private ContestsClass contestclass;
+	
 
 	private static ControllingFrame instance = null;
 
