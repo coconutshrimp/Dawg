@@ -89,8 +89,20 @@ public class ContestView extends JPanel {
 				String selected = (String) dogList.getSelectedItem();
 				for(int i = 0; i < actualContest.size(); i++) {
 					if(actualContest.get(i).getName().equals("Current Contest")) {
+						ArrayList<String> temp = new ArrayList<>();
+						temp.add("Select a category");
 						ActualDog y = actualContest.get(i).findDog(selected);
-						//if(y.isGrooming())
+						if(y.isGrooming())
+							temp.add("Grooming");
+						if(y.isObedience())
+							temp.add("Obedience");
+						if(y.isSocialization())
+							temp.add("Socialization");
+						if(y.isFetch())
+							temp.add("Fetch");
+						
+						categories = temp.toArray(new String[temp.size()]);
+						categoryList.setModel(new DefaultComboBoxModel<String>(categories));
 					}
 				}
 			}
