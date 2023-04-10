@@ -30,6 +30,7 @@ public class Register extends JPanel {
 
 	private JTextField nameField, idField, ownerField;
 	private ActualDog dog;
+	private int IDnum = 1;
 
 	String[] genders = {"Male", "Female" };
 	private JComboBox<String> genderDropDown;
@@ -86,26 +87,9 @@ public class Register extends JPanel {
 		});
 		
 
-		idField = new JTextField("Enter ID", 10);
+		idField = new JTextField(Integer.toString(IDnum), 10);
 		idField.addActionListener(controller);
-		idField.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent event) {
-				if (idField.getText().equals("Enter ID")) {
-					idField.setText("");
-				}
-				idField.setForeground(Color.BLACK);
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (idField.getText().equals("")) {
-					idField.setText("Enter ID");
-				}
-				idField.setForeground(Color.BLACK);
-
-			}
-		});
+		idField.setEditable(false);
 
 
 		genderDropDown = new JComboBox<>(genders);
@@ -259,6 +243,13 @@ public class Register extends JPanel {
     	genderDropDown.setForeground(Color.RED);
     }
 
-
+	public void addOne()
+	{
+		IDnum++;
+	}
+	
+	public int getIDcount() {
+		return IDnum;
+	}
 
 }

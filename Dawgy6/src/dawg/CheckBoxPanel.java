@@ -60,7 +60,7 @@ public class CheckBoxPanel extends JPanel {
 		fetch.setFont(font);
 		fetch.addActionListener(controller);
 
-		JLabel contest = new JLabel("Contest(s): ", JLabel.LEFT);
+		JLabel contest = new JLabel("Categories: ", JLabel.LEFT);
 		contest.setLabelFor(this);
 
 		JButton saveButton = new JButton("Save");

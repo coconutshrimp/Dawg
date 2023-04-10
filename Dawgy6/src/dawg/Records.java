@@ -32,6 +32,7 @@ public class Records extends JPanel {
 	private JList<String> contestsList;
 	private ArrayList<String> Acontests = new ArrayList<String>();
 	
+	
 	private ControllingFrame controller;
 
 	public Records() {
@@ -97,6 +98,7 @@ public class Records extends JPanel {
 				String[] newcontests = Acontests.toArray(new String[Acontests.size()]);
 				contestsList.setListData(newcontests);
 				contestField.setText("");
+				
 			}
 		});
 		

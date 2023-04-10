@@ -45,7 +45,9 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 	private JPanel buttonPanel;
 	private String loginError = "<html>Wrong <u>Username</u> and <u>Password</u> combination!<br>&nbsp;&nbsp;&nbsp;&nbsp; Try again!</html>",
 			pictureError = "No Image!";
-
+	
+	private String categoryError = "<html>Please select at least one category!</html>";
+	
 	private String regLogin, regPasswd;
 
 	private StartUpScreen authScreen;
@@ -173,13 +175,32 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 				register.getReg().setOwnerRed();
 				FinalizeRegister = false;
 			}
+			
+			
+			boolean x1, x2, x3, x4;
+			
+			x1 = register.getCbp().getFetch();
+			x2 = register.getCbp().getGrooming();
+			x3 = register.getCbp().getSocialization();
+			x4 = register.getCbp().getObedience();
+			System.out.println(x1);
+			System.out.println(x2);
+			System.out.println(x3);
+			System.out.println(x4);
+			if(x1 == false && x2 == false && x3 == false && x4 == false)
+			{
+				JOptionPane.showMessageDialog(this, categoryError, "Error", JOptionPane.ERROR_MESSAGE);
+			}
 
 			DnDImagePanel imgPanel = register.getDnDImagePanel();
 
 			System.out.println(imgPanel.getImage().hashCode());
-			if (!imgPanel.imageChanged()) {
-				JOptionPane.showMessageDialog(this, pictureError, "Picture", JOptionPane.ERROR_MESSAGE);
-			}
+//			if (!imgPanel.imageChanged()) {
+//				JOptionPane.showMessageDialog(this, pictureError, "Picture", JOptionPane.ERROR_MESSAGE);
+//				FinalizeRegister = false;
+//			}
+//			
+			
 
 			if (FinalizeRegister) {
 				contest.addDog(register.getReg().getNameField().getText(), register.getReg().getIdField().getText(), register.getReg().getOwnerField().getText(), 
@@ -187,11 +208,13 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 						register.getCbp().getFetch());
 				//contest.
 				//ActualDog x = new ActualDog(register.getReg(), register.getCbp(), register.getDnDImagePanel());\
+				register.getReg().addOne();
 				register.getReg().setNameField("Enter name");
-				register.getReg().setIdField("Enter ID");
+				register.getReg().setIdField(Integer.toString(register.getReg().getIDcount()));
 				register.getReg().setGenderDropDown(0);
 				register.getReg().setOwnerField("Enter Owner's Name");
 				register.getCbp().reset();
+				
 
 
 			}

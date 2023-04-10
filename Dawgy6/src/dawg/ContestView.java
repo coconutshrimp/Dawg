@@ -36,9 +36,9 @@ public class ContestView extends JPanel {
 	private JTextField judge1Field = new JTextField("0", 2);
 	private JTextField judge2Field, judge3Field, judge4Field, judge5Field, median, nameField;
 	private int med;
+	private ActualDog dog;
 	private Records record;
 
-	ArrayList<ContestsClass> list = new ArrayList<ContestsClass>();
 
 	ContestsClass x;
 
@@ -82,17 +82,31 @@ public class ContestView extends JPanel {
 						ActualDog y = actualContest.get(i).findDog(selected);
 						if (y.isGrooming())
 							temp.add("Grooming");
+						else
+							y.setgScore(-1);
 						if (y.isObedience())
 							temp.add("Obedience");
+						else
+							y.setoScore(-1);
 						if (y.isSocialization())
 							temp.add("Socialization");
+						else
+							y.setsScore(-1);
 						if (y.isFetch())
 							temp.add("Fetch");
+						else
+							y.setfScore(-1);
 
 						categories = temp.toArray(new String[temp.size()]);
 						categoryList.setModel(new DefaultComboBoxModel<String>(categories));
 					}
 				}
+				
+				judge1Field.setText("Enter Score (0-10)");
+				judge2Field.setText("Enter Score (0-10)");
+				judge3Field.setText("Enter Score (0-10)");
+				judge4Field.setText("Enter Score (0-10)");
+				judge5Field.setText("Enter Score (0-10)");
 
 			}
 		});
@@ -294,7 +308,34 @@ public class ContestView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = (String) dogList.getSelectedItem(), m = median.getText();
-				System.out.println(actualContest.size());
+				for(int i = 0; i < actualContest.size(); i++)
+					if(actualContest.get(i).getName().equals("Current Contest"))
+						dog = actualContest.get(i).findDog(name);
+				
+				
+				// ContestsClass x = new ContestsClass(nameField.getText(), median.getText(),
+				// (String)categoryList.getSelectedItem());
+				for (int i = 0; i < actualContest.size(); i++) {
+					if(actualContest.get(i).getName().equals("Current Contest")) {
+					switch ((String) categoryList.getSelectedItem()) {
+					case "Grooming":
+						actualContest.get(i).Grooming(dog.getId(), Integer.parseInt(m));
+						break;
+					case "Socialization":
+						actualContest.get(i).Socialization(dog.getId(), Integer.parseInt(m));
+						break;
+					case "Obedience":
+						
+						actualContest.get(i).Obedience(dog.getId(), Integer.parseInt(m));
+						break;
+					case "Fetch":
+						actualContest.get(i).Fetch(dog.getId(), Integer.parseInt(m));
+						break;
+						
+					}
+					System.out.println(name + " " + dog.getfScore() + " " + dog.getoScore() + " " + dog.getgScore() + " " + dog.getsScore());
+				}}
+				
 				if (isNumber(judge1Field.getText(), judge2Field.getText(), judge3Field.getText(), judge4Field.getText(),
 						judge5Field.getText(), median.getText())) {
 					judge1Field.setText("Enter Score (0-10)");
@@ -306,17 +347,6 @@ public class ContestView extends JPanel {
 					categoryList.setSelectedIndex(0);
 					dogList.setSelectedIndex(0);
 				}
-				// ContestsClass x = new ContestsClass(nameField.getText(), median.getText(),
-				// (String)categoryList.getSelectedItem());
-				for (int i = 0; i < actualContest.size(); i++) {
-
-					switch ((String) categoryList.getSelectedItem()) {
-					case "Grooming":
-						actualContest.get(i).Grooming(name, Integer.parseInt(m));
-						finalizeButton.setEnabled(false);
-						break;
-					}
-				}
 
 			}
 		});
@@ -326,12 +356,39 @@ public class ContestView extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				String cat = (String) categoryList.getSelectedItem(); 
+				
 				for (int i = 0; i < actualContest.size(); i++) {
-					//System.out.println(actualContest.get(i).getGroomScore((String) dogList.getSelectedItem()));
-					if (actualContest.get(i).getGroomScore((String) dogList.getSelectedItem()) != 0)
-						finalizeButton.setEnabled(false);
-					else
-						finalizeButton.setEnabled(true);
+					if(actualContest.get(i).getName().equals("Current Contest")) {
+						
+						if (cat.equals("Grooming") && actualContest.get(i).findDog((String) dogList.getSelectedItem()).getgScore() != 0) {
+							
+							finalizeButton.setEnabled(false);
+							System.out.println("1");
+						}
+						
+						else if (cat.equals("Obedience") && actualContest.get(i).findDog((String) dogList.getSelectedItem()).getoScore() != 0) {
+							finalizeButton.setEnabled(false);
+							System.out.println("2");
+						}
+						
+						else if (cat.equals("Socialization") && actualContest.get(i).findDog((String) dogList.getSelectedItem()).getsScore() != 0) {
+							finalizeButton.setEnabled(false);
+							System.out.println("3");
+						}
+						
+						else if (cat.equals("Fetch") && actualContest.get(i).findDog((String) dogList.getSelectedItem()).getfScore() != 0) {
+							finalizeButton.setEnabled(false);
+							System.out.println("4");
+						}
+							
+						else
+							finalizeButton.setEnabled(true);
+						
+						
+					}
+					
 
 				}
 			}

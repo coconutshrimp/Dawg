@@ -24,14 +24,46 @@ public class ContestsClass {
 	}
 	
 	//Update Grooming
-	public void Grooming(String dogName, int score)
+	public void Grooming(String ID, int score)
 	{
 		for(int i = 0; i < DogCount; i++)
-			if(doglist.get(i).getName().equals(dogName)) {
+			if(doglist.get(i).getId().equals(ID)) {
 				doglist.get(i).setgScore(score);
 				System.out.println(doglist.get(i).getName() + "'s score is: " + doglist.get(i).getgScore());
 			}
 	}
+	
+	public void Socialization(String ID, int score)
+	{
+		for(int i = 0; i < DogCount; i++)
+			if(doglist.get(i).getId().equals(ID)) {
+				System.out.println(score);
+				doglist.get(i).setsScore(score);
+				System.out.println(doglist.get(i).getName() + "'s score is: " + doglist.get(i).getsScore());
+			}
+	}
+	
+	public void Obedience(String ID, int score)
+	{
+		for(int i = 0; i < DogCount; i++)
+			if(doglist.get(i).getId().equals(ID)) {
+				System.out.println(score + "!!!");
+				doglist.get(i).setoScore(score);
+				System.out.println(doglist.get(i).getName() + "'s score is: " + doglist.get(i).getoScore());
+			}
+	}
+	
+	public void Fetch(String ID, int score)
+	{
+		for(int i = 0; i < DogCount; i++)
+			if(doglist.get(i).getId().equals(ID)) {
+				doglist.get(i).setfScore(score);
+				System.out.println(doglist.get(i).getName() + "'s score is: " + doglist.get(i).getfScore());
+			}
+	}
+	
+	
+	
 
 	public void setName(String name) {
 		this.name = name;

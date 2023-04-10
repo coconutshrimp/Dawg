@@ -71,15 +71,15 @@ public class ActualDog implements Serializable {
 	}
 	
 	public void setoScore(int score) {
-		gScore = score;
+		oScore = score;
 	}
 	
 	public void setsScore(int score) {
-		gScore = score;
+		sScore = score;
 	}
 	
 	public void setfScore(int score) {
-		gScore = score;
+		fScore = score;
 	}
 	public String getName() {
 		return name;
