@@ -31,7 +31,7 @@ public class CheckBoxPanel extends JPanel {
 		String name;
 		
 	}
-	
+	 
 	
 	public CheckBoxPanel() {
 		addComponents();

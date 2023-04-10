@@ -5,9 +5,11 @@ package dawg;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.StackWalker.StackFrame;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -19,16 +21,17 @@ import javax.swing.JPanel;
 import config.ConfigurationParameters;
 
 /**
- * @author Krish Pillai
  *
  */
 public class BasicImagePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	protected BufferedImage image;
+	protected Image image;
 	private ControllingFrame controller;
-	private final int WIDTH = ConfigurationParameters.width, HEIGHT = ConfigurationParameters.height/3;
-
+	private int width, height;
+	private  Image defaultImage;
+	private int defaultHashCode, currentHashCode;
+	
 	public BasicImagePanel(ControllingFrame controller) {
 		this.controller = controller;
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -39,28 +42,9 @@ public class BasicImagePanel extends JPanel {
 	public void paint(Graphics g) {
 		if (image != null) {
 			g.clearRect(0, 0, getWidth(), getHeight());
-			g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+			Image img = letterboxImage(image, getWidth(), getHeight());
+			g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
 		}
-	}
-
-	protected BufferedImage getImageFromAbsolutePath(String path) {
-
-		FileImageInputStream fiis = null;
-		BufferedImage image = null;
-		try {
-			fiis = new FileImageInputStream(new File(path));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		// use ImageIO to read the image in
-		try {
-			image = ImageIO.read(fiis);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return image;
 	}
 
 	protected static ImageIcon createImageIcon(String path, String description) {
@@ -74,9 +58,8 @@ public class BasicImagePanel extends JPanel {
 		}
 	}
 
-	protected BufferedImage getImageFromPackage(String packagename, String filename) {
+	protected BufferedImage getImageFromPackage(String path) {
 
-		String path = packagename + "/" + filename;
 		URL url = this.getClass().getClassLoader().getResource(path);
 		BufferedImage image = null;
 		try {
@@ -86,29 +69,77 @@ public class BasicImagePanel extends JPanel {
 			}
 			// use ImageIO to read the image in
 			image = ImageIO.read(url);
+			if (image == null)
+				throw new NullPointerException("Could not read image contents from \"" 
+						+ path + "\"");
 		} catch (IOException e) {
 			System.err.println("Failed to load: \"" + path + "\"");
 		}
 		return image;
 	}
-
-	public void setImage(BufferedImage image) {
+	
+	public void setImage(Image image) {
+		if (defaultImage == null) {
+			defaultImage = image;
+			defaultHashCode = image.hashCode();
+		} 
+		currentHashCode = image.hashCode();
 		this.image = image;
 	}
-
-	public void setImageFromPackageFile(String packagename, String filename) {
-		this.image = getImageFromPackage(packagename, filename);
-	}
-
-	public void setImageFromAbsolutePath(String path) {
-		this.image = getImageFromAbsolutePath(path);
-	}
-
+	
 	public ControllingFrame getController() {
 		return controller;
 	}
 
-	public BufferedImage getImage() {
+	public Image getImage() {
 		return image;
 	}
+
+	public Image getCurrentImage(String path) {
+		return image;
+	}
+	
+	public void resetImage() {
+		setImage(defaultImage);
+	}
+	public boolean imageChanged() {
+		return currentHashCode != defaultHashCode;
+	}
+	
+	public Image letterboxImage(Image srcImage, 
+			int panelWidth, int panelHeight) {
+		BufferedImage img = new BufferedImage(panelWidth, panelHeight, BufferedImage.TYPE_3BYTE_BGR);
+		Graphics gc = img.getGraphics();
+
+		double scaleFactor = 1.0;		
+
+		int imageWidth = srcImage.getWidth(null);
+		int imageHeight = srcImage.getHeight(null);
+		
+
+		// Scale by the longer edge
+		if (imageWidth > imageHeight) {
+			scaleFactor = panelWidth/(double)imageWidth;
+		} else {
+			scaleFactor = panelHeight/(double)imageHeight;
+		}
+		
+		int sx1 = 0;
+		int sy1 = 0;
+		int sx2 = imageWidth;
+		int sy2 = imageHeight;
+		
+		int dx1 = (panelWidth-(int)(imageWidth*scaleFactor))/2;
+		int dy1 = (panelHeight-(int)(imageHeight*scaleFactor))/2;
+		int dx2 = (panelWidth+(int)(imageWidth*scaleFactor))/2;
+		int dy2 = (panelHeight+(int)(imageHeight*scaleFactor))/2;
+		
+ 
+		gc.setColor(getBackground());
+		gc.fillRect(0, 0, panelWidth, panelHeight);
+		gc.drawImage(srcImage, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
+		gc.dispose();
+		return img;
+	}
+
 }

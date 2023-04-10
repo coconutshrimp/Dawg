@@ -4,18 +4,14 @@
 package dawg;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,10 +31,9 @@ public class Register extends JPanel {
 	private JTextField nameField, idField, ownerField;
 	private ActualDog dog;
 
-	String[] genders = new String[] { "Gender", "Male", "Female" };
+	String[] genders = {"Male", "Female" };
 	private JComboBox<String> genderDropDown;
 
-	
 	private String name, id, owner, gender;
 	private boolean g, o, s, f;
 	
@@ -51,11 +46,6 @@ public class Register extends JPanel {
 	}
 	
 	
-	
-	
-	
-
-
 	private void addComponents() {
 		// JPanel dndPanel = new DnDImagePanel(controller, "GhoseImageTemplate.png");
 
@@ -65,17 +55,6 @@ public class Register extends JPanel {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		JLabel label1 = new JLabel("Name: ", JLabel.CENTER);
-		label1.setLabelFor(nameField);
-
-		JLabel label2 = new JLabel("ID: ", JLabel.CENTER);
-		label2.setLabelFor(idField);
-
-		JLabel label3 = new JLabel("Gender: ", JLabel.CENTER);
-		label3.setLabelFor(genderDropDown);
-
-		JLabel label4 = new JLabel("Owner: ", JLabel.CENTER);
-		label4.setLabelFor(ownerField);
 
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(controller);
@@ -105,7 +84,6 @@ public class Register extends JPanel {
 
 			}
 		});
-		
 		
 
 		idField = new JTextField("Enter ID", 10);
@@ -145,7 +123,14 @@ public class Register extends JPanel {
 				genderDropDown.setForeground(Color.BLACK);				
 			}
 		});
-
+		genderDropDown.setSelectedIndex(0);
+		genderDropDown.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Hello");
+			}
+		});
 		ownerField = new JTextField("Enter Owner's Name", 10);
 		ownerField.addActionListener(controller);
 		ownerField.addFocusListener(new FocusListener() {
@@ -166,8 +151,20 @@ public class Register extends JPanel {
 
 			}
 		});
-		JButton button = new JButton("Finalize Info");
 		
+		JLabel label1 = new JLabel("Name: ", JLabel.CENTER);
+		label1.setLabelFor(nameField);
+
+		JLabel label2 = new JLabel("ID: ", JLabel.CENTER);
+		label2.setLabelFor(idField);
+
+		JLabel label3 = new JLabel("Gender: ", JLabel.CENTER);
+		label3.setLabelFor(genderDropDown);
+
+		JLabel label4 = new JLabel("Owner: ", JLabel.CENTER);
+		label4.setLabelFor(ownerField);
+
+		JButton button = new JButton("Finalize Info");
 		
 		
 		layout.setHorizontalGroup(layout.createSequentialGroup()
@@ -200,13 +197,9 @@ public class Register extends JPanel {
 
 	}
 
-
-
-
 	public ActualDog getDog() {
 		return dog;
 	}
-
 
 	public JTextField getNameField() {
 		return nameField;
@@ -257,8 +250,8 @@ public class Register extends JPanel {
 		return (String) genderDropDown.getSelectedItem();
 	}
 
-	public void setGenderDropDown() {
-		genderDropDown.setSelectedIndex(0);
+	public void setGenderDropDown(int index) {
+		genderDropDown.setSelectedIndex(index);
 	}
 	
 	public void setGenderRed() {

@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -25,9 +27,9 @@ import javax.swing.JTextField;
  *
  */
 public class ButtonPanelForAuthentication extends JPanel {
-
+  
 	/**
-	 * 
+	 * This is a button panel for authentication
 	 */
 	private static final long serialVersionUID = 1L;
 	private ControllingFrame controller;
@@ -59,27 +61,43 @@ public class ButtonPanelForAuthentication extends JPanel {
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(controller);
 		loginButton.setActionCommand("LOGIN");
+		loginButton.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					loginButton.doClick();
+				}
+			}
+		});
 
 		JButton createAccount = new JButton("Create");
 		createAccount.addActionListener(controller);
 
 		loginField = new JTextField("jdoe@email.org");
-		// loginField.selectAll();
-
-		// String username = loginField.getText();
 
 		loginField.setBounds(100, 20, 165, 25);
 		loginField.setActionCommand("LOGIN");
 		loginField.addActionListener(controller);
 		loginField.addFocusListener(controller);
 		
-		
-		
 		loginField.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				loginField.setText("");
+				loginField.selectAll();
 			}
 
 			@Override
@@ -108,14 +126,41 @@ public class ButtonPanelForAuthentication extends JPanel {
 
 		});
 
-		//loginField.setFocusTraversalKeysEnabled(f);
+		loginField.setFocusTraversalKeysEnabled(true);
 
-		passwordField = new JPasswordField(10);
+
+		loginField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				loginField.selectAll();
+			}
+		});
+		passwordField = new JPasswordField("**********", 10);
 		passwordField.setActionCommand("PASSWORD");
 		// char[] password = passwordField.getPassword();
 		passwordField.addActionListener(controller);
-		passwordField.addFocusListener(controller);
-		//passwordField.setFocusTraversalKeysEnabled(true);
+		passwordField.addFocusListener(controller);		
+		passwordField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				passwordField.selectAll();
+			}
+		});
+		passwordField.setFocusTraversalKeysEnabled(true);
 
 		// Lay out everything.
 
@@ -131,12 +176,14 @@ public class ButtonPanelForAuthentication extends JPanel {
 						.addComponent(passwordField))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(loginButton)
 						.addComponent(createAccount)));
+		
 	}
 
 	public void reset() {
-		
-			loginField.setText("jdoe@email.org");
-		passwordField.setText("");
-	
+		loginField.setText("jdoe@email.org");
+		passwordField.setText("*********");
 	}
+	
 }
+
+

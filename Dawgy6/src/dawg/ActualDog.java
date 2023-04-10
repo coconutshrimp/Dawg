@@ -1,6 +1,6 @@
 package dawg;
 
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.io.Serializable;
 
 public class ActualDog implements Serializable {
@@ -10,7 +10,7 @@ public class ActualDog implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	String name, id, owner, gender;
-	BufferedImage image;
+	Image image;
 	boolean grooming, obedience, socialization, fetch;
 	int gScore, oScore, sScore, fScore;
 
@@ -26,12 +26,12 @@ public class ActualDog implements Serializable {
 		image = dnd.getImage();
 		
 		
-		
 		System.out.println("Name: " + name + " Owner: " + owner + " Gender: " + gender + " ID: " + id + " Fetch: "
 				+ fetch + " Grooming: " + grooming + " Socialization: " + socialization + " Obedience: " + obedience + " Image: " + image);
 
 	}
-	
+
+
 	public ActualDog(String name, String id, String owner, String gender, boolean groom,
 			boolean obedience, boolean social, boolean fetch) {
 		this.name = name;
@@ -47,9 +47,9 @@ public class ActualDog implements Serializable {
 		sScore = 0; 
 		fScore = 0;
 		
-		
+
 	}
-	
+	 
 	public int getgScore() {
 		return gScore;
 	}
@@ -81,8 +81,6 @@ public class ActualDog implements Serializable {
 	public void setfScore(int score) {
 		gScore = score;
 	}
-	
-	
 	public String getName() {
 		return name;
 	}

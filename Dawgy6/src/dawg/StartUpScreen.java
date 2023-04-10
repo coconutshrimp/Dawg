@@ -3,12 +3,15 @@
  */
 package dawg;
 
+import config.ConfigurationParameters;
+
 /**
  * @author lopmilc
  *
  */
 public class StartUpScreen extends BasicImagePanel {
 
+	private final int WIDTH = ConfigurationParameters.width, HEIGHT = ConfigurationParameters.height;
 
 	/**
 	 * 
@@ -18,7 +21,7 @@ public class StartUpScreen extends BasicImagePanel {
 	
 	public StartUpScreen(ControllingFrame controller, String imageFile) {
 		super(controller);
-		setImageFromPackageFile("images", imageFile);
+		setImage(getImageFromPackage(imageFile));
 	}
 	
 

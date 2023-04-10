@@ -27,8 +27,10 @@ public class ContestsClass {
 	public void Grooming(String dogName, int score)
 	{
 		for(int i = 0; i < DogCount; i++)
-			if(doglist.get(i).getName().equals(dogName))
+			if(doglist.get(i).getName().equals(dogName)) {
 				doglist.get(i).setgScore(score);
+				System.out.println(doglist.get(i).getName() + "'s score is: " + doglist.get(i).getgScore());
+			}
 	}
 
 	public void setName(String name) {
@@ -55,10 +57,10 @@ public class ContestsClass {
 			if(doglist.get(i).getName().equals(name))
 				return doglist.get(i);
 		}
-		
+
 		return doglist.get(0);
 	}
-	
+
 	public void addDog(String name, String id, String owner, String gender, boolean groom,
 			boolean obedience, boolean social, boolean fetch) {
 		ActualDog x = new ActualDog(name, id, owner, gender, groom, obedience, social, fetch);
@@ -67,10 +69,9 @@ public class ContestsClass {
 		for(int i = 0; i < DogCount; i++) {
 			System.out.println(doglist.get(i).getName());
 		}
-		
+
 	}
-
-
+	
 	public int getGroomScore(String name) {
 		for(int i = 0; i < DogCount; i++) {
 			if(doglist.get(i).getName().equals(name))
@@ -79,16 +80,5 @@ public class ContestsClass {
 		}
 		return 0;
 	}
-	
-	
-	
-	
-//	public String[] getDogs() {
-//		ArrayList<String> temp = new ArrayList<String>();
-//		for(int i = 0; i < this.getDogCount(); i++) {
-//			temp.add(name)
-//		}
-//	}
-//	
-	
+
 }

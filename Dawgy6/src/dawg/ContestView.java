@@ -1,9 +1,3 @@
-/**
- * 
- */
-/**
- * 
- */
 package dawg;
 
 import java.awt.Color;
@@ -43,102 +37,86 @@ public class ContestView extends JPanel {
 	private JTextField judge2Field, judge3Field, judge4Field, judge5Field, median, nameField;
 	private int med;
 	private Records record;
-	
+
 	ArrayList<ContestsClass> list = new ArrayList<ContestsClass>();
-	
+
 	ContestsClass x;
-	
+
 	private ContestsClass x1, x2, x3;
-	
-	
-	
+
 	
 
 	ArrayList<String> alist = new ArrayList<String>();
-	
+
 	String[] dogNames = alist.toArray(new String[alist.size()]);
-	
+
 	ArrayList<ContestsClass> actualContest = new ArrayList<ContestsClass>();
-	
-	String [] categories = {"Select a category", "Grooming", "Obedience", "Socialization", "Fetch"};
-	
-	
+
+	String[] categories = { "Select a category", "Grooming", "Obedience", "Socialization", "Fetch" };
+
 	private JComboBox<String> dogList = new JComboBox<String>(dogNames);
+
 	private JComboBox<String> categoryList = new JComboBox<String>(categories);
-	
-	ArrayList<ContestsClass> contestsWithDog= new ArrayList<>();
+
+	ArrayList<ContestsClass> contestsWithDog = new ArrayList<>();
 
 	public ContestView() {
 		this.controller = ControllingFrame.getInstance();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
+
 		alist.add("Dog Name");
 		dogNames = alist.toArray(new String[alist.size()]);
 		dogList = new JComboBox<String>(dogNames);
-		
-		
-		
-		
-		
+
 		dogList.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String selected = (String) dogList.getSelectedItem();
-				for(int i = 0; i < actualContest.size(); i++) {
-					if(actualContest.get(i).getName().equals("Current Contest")) {
+				// for(ContestsClass actualContestsClass
+				for (int i = 0; i < actualContest.size(); i++) {
+					if (actualContest.get(i).getName().equals("Current Contest")) {
 						ArrayList<String> temp = new ArrayList<>();
 						temp.add("Select a category");
 						ActualDog y = actualContest.get(i).findDog(selected);
-						if(y.isGrooming())
+						if (y.isGrooming())
 							temp.add("Grooming");
-						if(y.isObedience())
+						if (y.isObedience())
 							temp.add("Obedience");
-						if(y.isSocialization())
+						if (y.isSocialization())
 							temp.add("Socialization");
-						if(y.isFetch())
+						if (y.isFetch())
 							temp.add("Fetch");
-						
+
 						categories = temp.toArray(new String[temp.size()]);
 						categoryList.setModel(new DefaultComboBoxModel<String>(categories));
 					}
 				}
+
 			}
 		});
-		
-		
-		
-		
+
 		actualContest.add(new ContestsClass("Current Contest"));
+
 		addComponents();
-		
-		
 	}
-	
-	
-	
 
-
-	public void addDog(String name, String id, String owner, String gender, boolean groom,
-			boolean obedience, boolean social, boolean fetch) {
+	public void addDog(String name, String id, String owner, String gender, boolean groom, boolean obedience,
+			boolean social, boolean fetch) {
 		alist.add(name);
-		
+
 		dogNames = alist.toArray(new String[alist.size()]);
 		dogList.setModel(new DefaultComboBoxModel<String>(dogNames));
-		for(int i = 0; i < actualContest.size(); i++) {
-			if(actualContest.get(i).getName().equals("Current Contest")) {
+		for (int i = 0; i < actualContest.size(); i++) {
+			if (actualContest.get(i).getName().equals("Current Contest")) {
 				actualContest.get(i).addDog(name, id, owner, gender, groom, obedience, social, fetch);
 			}
-				
+
 		}
-			
-		
+
 	}
-	
-	
-	
-	
+
 	private class ContestViewFocusListener implements FocusListener {
 
 		private JTextField textField;
@@ -152,9 +130,9 @@ public class ContestView extends JPanel {
 			String str = textField.getText();
 			if (str.equalsIgnoreCase("Enter Score (0-10)")) {
 				textField.setText("");
-				
+
 			}
-			
+
 		}
 
 		@Override
@@ -166,8 +144,6 @@ public class ContestView extends JPanel {
 
 		}
 	}
-	
-	
 
 	private class ContestViewKeyListener implements KeyListener {
 
@@ -240,7 +216,7 @@ public class ContestView extends JPanel {
 			int val4 = Integer.parseInt(text4);
 			int val5 = Integer.parseInt(text5);
 			if (val1 > 10 || val2 > 10 || val3 > 10 || val4 > 10 || val5 > 10) {
-				System.out.println("Too high");
+				
 			}
 
 			else {
@@ -262,23 +238,35 @@ public class ContestView extends JPanel {
 		}
 
 	}
+
+	protected boolean areFieldsValid() {
+		return isNumber(judge1Field.getText(), judge2Field.getText(), judge3Field.getText(), judge4Field.getText()
+				, judge5Field.getText());
+		
+	}
 	
-	
+	protected void clearFields() {
+		judge1Field.setText("Enter Score (0-10)");
+		judge2Field.setText("Enter Score (0-10)");
+		judge3Field.setText("Enter Score (0-10)");
+		judge4Field.setText("Enter Score (0-10)");
+		judge5Field.setText("Enter Score (0-10)");
+		median.setText("");
+		
+		
+	}
+
 	private void addComponents() {
 		// setBackground(Color.BLACK);
-		
+
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-	
-		
 		JLabel categorylabel = new JLabel("Category: ", JLabel.CENTER);
 		categorylabel.setLabelFor(categorylabel);
-		
-		
-		
+
 		JLabel dLabel = new JLabel("Dog Name: ", JLabel.CENTER);
 		dLabel.setLabelFor(nameField);
 
@@ -302,28 +290,37 @@ public class ContestView extends JPanel {
 
 		JButton finalizeButton = new JButton("Finalize Score");
 		finalizeButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = (String) dogList.getSelectedItem(), m = median.getText();
-				System.out.println(actualContest.get(0).getDogCount());
-				if(areFieldsValid()) {
-					clearFields();
+				System.out.println(actualContest.size());
+				if (isNumber(judge1Field.getText(), judge2Field.getText(), judge3Field.getText(), judge4Field.getText(),
+						judge5Field.getText(), median.getText())) {
+					judge1Field.setText("Enter Score (0-10)");
+					judge2Field.setText("Enter Score (0-10)");
+					judge3Field.setText("Enter Score (0-10)");
+					judge4Field.setText("Enter Score (0-10)");
+					judge5Field.setText("Enter Score (0-10)");
+					median.setText("");
+					categoryList.setSelectedIndex(0);
+					dogList.setSelectedIndex(0);
 				}
-				//ContestsClass x = new ContestsClass(nameField.getText(), median.getText(), (String)categoryList.getSelectedItem());
-				for(int i = 0; i < actualContest.size(); i++) {
-					
-					switch((String)categoryList.getSelectedItem()) {
+				// ContestsClass x = new ContestsClass(nameField.getText(), median.getText(),
+				// (String)categoryList.getSelectedItem());
+				for (int i = 0; i < actualContest.size(); i++) {
+
+					switch ((String) categoryList.getSelectedItem()) {
 					case "Grooming":
 						actualContest.get(i).Grooming(name, Integer.parseInt(m));
 						finalizeButton.setEnabled(false);
 						break;
 					}
 				}
-				
-				
+
 			}
 		});
+		
 		
 		categoryList.addActionListener(new ActionListener() {
 
@@ -339,7 +336,6 @@ public class ContestView extends JPanel {
 				}
 			}
 		});
-
 		judge1Field = new JTextField("Enter Score (0-10)");
 		judge1Field.addKeyListener(new ContestViewKeyListener(judge1Field));
 		judge1Field.getDocument().addDocumentListener(new DocumentListener() {
@@ -365,11 +361,11 @@ public class ContestView extends JPanel {
 		});
 		judge2Field = new JTextField("Enter Score (0-10)", 2);
 		judge2Field.addKeyListener(new ContestViewKeyListener(judge2Field));
-		
 		judge2Field.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
 			public void removeUpdate(DocumentEvent e) {
+				
 				
 			}
 			
@@ -388,11 +384,11 @@ public class ContestView extends JPanel {
 		});
 		judge3Field = new JTextField("Enter Score (0-10)", 2);
 		judge3Field.addKeyListener(new ContestViewKeyListener(judge3Field));
-		
 		judge3Field.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
 			public void removeUpdate(DocumentEvent e) {
+				
 				
 			}
 			
@@ -411,7 +407,6 @@ public class ContestView extends JPanel {
 		});
 		judge4Field = new JTextField("Enter Score (0-10)", 2);
 		judge4Field.addKeyListener(new ContestViewKeyListener(judge4Field));
-		
 		judge4Field.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
@@ -432,14 +427,14 @@ public class ContestView extends JPanel {
 				if(areFieldsValid())
 					calculateMedian();				
 			}
-		});	
+		});
 		judge5Field = new JTextField("Enter Score (0-10)", 2);
 		judge5Field.addKeyListener(new ContestViewKeyListener(judge5Field));
-		
 		judge5Field.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
 			public void removeUpdate(DocumentEvent e) {
+				
 				
 			}
 			
@@ -456,7 +451,7 @@ public class ContestView extends JPanel {
 					calculateMedian();				
 			}
 		});
-		median = new JTextField("", 2);
+		median = new JTextField("Press Enter to calculate", 2);
 		median.setEditable(false);
 
 		judge1Field.addFocusListener(new ContestViewFocusListener(judge1Field));
@@ -464,23 +459,23 @@ public class ContestView extends JPanel {
 		judge3Field.addFocusListener(new ContestViewFocusListener(judge3Field));
 		judge4Field.addFocusListener(new ContestViewFocusListener(judge4Field));
 		judge5Field.addFocusListener(new ContestViewFocusListener(judge5Field));
-		
-		
+
 		dogList.setPreferredSize(new Dimension(10, 10));
-		
 
 		layout.setHorizontalGroup(layout.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dLabel).addComponent(categorylabel)
-						.addComponent(label1).addComponent(label2).addComponent(label3).addComponent(label4)
-						.addComponent(label5).addComponent(label6))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dLabel)
+						.addComponent(categorylabel).addComponent(label1).addComponent(label2).addComponent(label3)
+						.addComponent(label4).addComponent(label5).addComponent(label6))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(dogList)
-						.addComponent(categoryList).addComponent(judge1Field).addComponent(judge2Field).addComponent(judge3Field)
-						.addComponent(judge4Field).addComponent(judge5Field).addComponent(median)
-						.addComponent(finalizeButton)));
+						.addComponent(categoryList).addComponent(judge1Field).addComponent(judge2Field)
+						.addComponent(judge3Field).addComponent(judge4Field).addComponent(judge5Field)
+						.addComponent(median).addComponent(finalizeButton)));
 		layout.setVerticalGroup(layout.createSequentialGroup()
-				.addGroup(layout
-						.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(dLabel).addComponent(dogList))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(dLabel)
+						.addComponent(dogList))
 				.addGap(25)
+
+				.addGap(20)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(categorylabel)
 						.addComponent(categoryList))
 				.addGap(20)
@@ -507,31 +502,5 @@ public class ContestView extends JPanel {
 		);
 
 	}
-
-
-
-
-
-	protected void clearFields() {
-		judge1Field.setText("Enter Score (0-10)");
-		judge2Field.setText("Enter Score (0-10)");
-		judge3Field.setText("Enter Score (0-10)");
-		judge4Field.setText("Enter Score (0-10)");
-		judge5Field.setText("Enter Score (0-10)");
-		median.setText("");
-		
-		
-	}
-
-
-
-
-
-	protected boolean areFieldsValid() {
-		return isNumber(judge1Field.getText(), judge2Field.getText(), judge3Field.getText(), judge4Field.getText()
-				, judge5Field.getText());
-		
-	}
-	
 
 }

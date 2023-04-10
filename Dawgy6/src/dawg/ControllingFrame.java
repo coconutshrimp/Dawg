@@ -7,23 +7,20 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import auth.Authenticator;
 import config.ConfigurationParameters;
@@ -46,7 +43,8 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 	private JPanel containerPanel;
 	private static JPanel informationPanel;
 	private JPanel buttonPanel;
-	private JDialog jDialog;
+	private String loginError = "<html>Wrong <u>Username</u> and <u>Password</u> combination!<br>&nbsp;&nbsp;&nbsp;&nbsp; Try again!</html>",
+			pictureError = "No Image!";
 
 	private String regLogin, regPasswd;
 
@@ -58,8 +56,8 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 	private Authenticator auth;
 	private Records records;
 	private boolean FinalizeRegister;
-	private static RecordsTable table;
-	
+	private static RecordsPanel table;
+	private ContestsClass contestclass;
 
 	private static ControllingFrame instance = null;
 
@@ -78,7 +76,8 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 		setLocation(screenDimension.width / 2 - WIDTH / 2, screenDimension.height / 2 - HEIGHT / 2);
 		addComponents();
 		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			UIManager.setLookAndFeel(new NimbusLookAndFeel());
+			SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception e) {
 			System.out.println("Errors setting UI look and feel!");
 			System.exit(0);
@@ -105,20 +104,11 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 		}
 		return instance;
 	}
-	
-	
-	
-	
-	
+
+
 
 	private void addComponents() {
-
 		setLayout(new BorderLayout());
-
-		jDialog = new JDialog(this, "Error");
-		JLabel label = new JLabel("<html> Wrong username and password combination <br> Try again!</html>");
-
-		jDialog.add(label);
 
 		containerPanel = new JPanel();
 		containerPanel.setLayout(new BorderLayout());
@@ -132,12 +122,11 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 		// add the various information panels to be switched to the info container
 		// add the corresponding buttons to the buttons panel
 
-		authScreen = new StartUpScreen(this, "dog_logo.png");
+		authScreen = new StartUpScreen(this, "images/dog_logo.png");
 		contest = new ContestView();
 		register = new RegisterContainer(this);
 		records = new Records();
-		table = new RecordsTable();
-		
+		table = new RecordsPanel();
 
 		informationPanel.add(authScreen, "TITLE");
 		informationPanel.add(contest, "Contest View");
@@ -185,38 +174,46 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 				FinalizeRegister = false;
 			}
 
-			if (FinalizeRegister == true) {
-				System.out.println("Dog Made");
+			DnDImagePanel imgPanel = register.getDnDImagePanel();
+
+			System.out.println(imgPanel.getImage().hashCode());
+			if (!imgPanel.imageChanged()) {
+				JOptionPane.showMessageDialog(this, pictureError, "Picture", JOptionPane.ERROR_MESSAGE);
+			}
+
+			if (FinalizeRegister) {
 				contest.addDog(register.getReg().getNameField().getText(), register.getReg().getIdField().getText(), register.getReg().getOwnerField().getText(), 
 						register.getReg().getGenderDropDown(), register.getCbp().getGrooming(), register.getCbp().getObedience(), register.getCbp().getSocialization(),
 						register.getCbp().getFetch());
 				//contest.
 				//ActualDog x = new ActualDog(register.getReg(), register.getCbp(), register.getDnDImagePanel());\
-				
 				register.getReg().setNameField("Enter name");
 				register.getReg().setIdField("Enter ID");
-				register.getReg().setGenderDropDown();
-				register.getReg().setOwnerField("Enter owner's name");
+				register.getReg().setGenderDropDown(0);
+				register.getReg().setOwnerField("Enter Owner's Name");
 				register.getCbp().reset();
 
-				
-			}
 
+			}
+			try {
+				UIManager.setLookAndFeel(new NimbusLookAndFeel());
+			} catch (Exception exp) {
+				System.out.println("Error setting UI look and feel!");
+				System.exit(0);
+			}
+			register.resetDndImagePanel();
+			repaint();
 			break;
 
 		case "LOGIN":
 
 			if (o instanceof JButton) {
-				System.out.println("Login button pressed!");
 				if (auth.hasAccount(regLogin) && auth.getPasswordFor(regLogin).equals(regPasswd)) {
 					CardLayout layout = (CardLayout) buttonPanel.getLayout();
 					layout.show(buttonPanel, "4Buttons");
 				} else {
-					jDialog.setSize(400, 400);
-					jDialog.setLocation(WIDTH / 2, HEIGHT / 2);
-					jDialog.setVisible(true);
+					JOptionPane.showMessageDialog(this, loginError, "Login/Password", JOptionPane.ERROR_MESSAGE);
 					authButtons.reset();
-
 				}
 			}
 			break;
@@ -226,8 +223,10 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 				if (!auth.hasAccount(regLogin)) {
 					auth.putPassword(regLogin, regPasswd);
 					auth.commit();
+					authButtons.reset();
 				} else {
-					System.out.println("Password exists!");
+					JOptionPane.showMessageDialog(this, "Account Exists. Please login!", "Login/Password",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			break;
@@ -243,7 +242,6 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 			if (o instanceof JButton) {
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Records");
-				
 			}
 			break;
 
@@ -261,9 +259,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Contest View");
-				
-				
-				
+			
 			}
 			break;
 
@@ -278,21 +274,20 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 
 				CardLayout layout1 = (CardLayout) buttonPanel.getLayout();
 				layout1.show(buttonPanel, "AUTH");
-				regLogin = "";
-				regPasswd = "";
+				 regLogin = "";
+				 regPasswd = "";
+				
 			}
 			break;
 
 		case "New":
 			if (o instanceof JButton) {
 
-			System.out.println("Hooray");
+				System.out.println("Hooray");
 			}
 			break;
 		}
-		
-		
-		
+
 	}
 
 	@Override

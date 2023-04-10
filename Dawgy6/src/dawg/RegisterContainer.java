@@ -10,6 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import config.ConfigurationParameters;
+
 /**
  * @author jammavi
  *
@@ -24,6 +26,8 @@ public class RegisterContainer extends JPanel {
 	private Register reg;
 	private CheckBoxPanel cbp;
 	private DnDImagePanel dnd;
+	public int hashcode;
+    private final int WIDTH = ConfigurationParameters.width, HEIGHT = ConfigurationParameters.height;
 
 	public RegisterContainer(ControllingFrame controller) {
 		this.controller = controller;
@@ -31,12 +35,17 @@ public class RegisterContainer extends JPanel {
 
 		setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		dnd = new DnDImagePanel(controller, "GhoseImageTemplate.png");
+		dnd = new DnDImagePanel(controller, "images/GhoseImageTemplate.png");
+		dnd.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/3));
+        reg = new Register();
+        cbp = new CheckBoxPanel();
+        DnDImagePanel advert = new DnDImagePanel(controller, "images/dawgfoodad.png");
+        advert.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/7));
 		add(dnd);
 		add(reg);
-		cbp = new CheckBoxPanel();
+		
 		add(cbp);
-		add(new DnDImagePanel(controller, "dawgfoodad.png"));
+		add(advert);
 	}
 
 	public Register getReg() {
@@ -50,5 +59,11 @@ public class RegisterContainer extends JPanel {
 	public DnDImagePanel getDnDImagePanel() {
 		return dnd;
 	}
+	
+	  public void resetDndImagePanel() {
+          dnd.resetImage();
+          System.out.println("changed");
+  }
+
 
 }
