@@ -93,21 +93,16 @@ public class Records extends JPanel {
 		JButton button = new JButton("New Contest");
 		button.addActionListener(controller);
 		button.setActionCommand("New");
-//		button.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				//contest.addContest(contestField.getText());
-//				int size = Acontests.size();
-//				Acontests.set(size-1, Integer.toString(year));
-//				Acontests.add("Current Contest");
-//				String[] newcontests = Acontests.toArray(new String[Acontests.size()]);
-//				contestsList.setListData(newcontests);
-//				year++;
-//				
-//				
-//			}
-//		});
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//contest.addContest(contestField.getText());
+				
+				
+				
+			}
+		});
 		
 		
 		
@@ -119,5 +114,14 @@ public class Records extends JPanel {
 		add(titleLabel, BorderLayout.NORTH);
 		add(listScrollPane, BorderLayout.CENTER);
 
+	}
+	
+	public void addContest() {
+		int size = Acontests.size();
+		Acontests.set(size-1, Integer.toString(year));
+		Acontests.add("Current Contest");
+		String[] newcontests = Acontests.toArray(new String[Acontests.size()]);
+		contestsList.setListData(newcontests);
+		year++;
 	}
 }

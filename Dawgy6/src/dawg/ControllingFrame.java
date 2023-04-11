@@ -309,7 +309,9 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 
 		case "New":
 			if (o instanceof JButton) {
-
+				
+				//Check to make sure all data is scored for current contest
+				records.addContest();
 				contest.addnewcontest();
 				
 				
