@@ -8,6 +8,7 @@ public class ActualDog implements Serializable {
 	/**
 	 * 
 	 */
+	//Test
 	private static final long serialVersionUID = 1L;
 	String name, id, owner, gender;
 	Image image;
