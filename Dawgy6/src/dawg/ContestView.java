@@ -38,6 +38,7 @@ public class ContestView extends JPanel {
 	private int med;
 	private ActualDog dog;
 	private Records record;
+	private int year = 2023;
 
 
 	ContestsClass x;
@@ -82,20 +83,12 @@ public class ContestView extends JPanel {
 						ActualDog y = actualContest.get(i).findDog(selected);
 						if (y.isGrooming())
 							temp.add("Grooming");
-						else
-							y.setgScore(-1);
 						if (y.isObedience())
 							temp.add("Obedience");
-						else
-							y.setoScore(-1);
 						if (y.isSocialization())
 							temp.add("Socialization");
-						else
-							y.setsScore(-1);
 						if (y.isFetch())
 							temp.add("Fetch");
-						else
-							y.setfScore(-1);
 
 						categories = temp.toArray(new String[temp.size()]);
 						categoryList.setModel(new DefaultComboBoxModel<String>(categories));
@@ -115,16 +108,26 @@ public class ContestView extends JPanel {
 
 		addComponents();
 	}
-
+	
 	public void addDog(String name, String id, String owner, String gender, boolean groom, boolean obedience,
-			boolean social, boolean fetch) {
+			boolean social, boolean fetch, DnDImagePanel dnd) {
 		alist.add(name);
 
 		dogNames = alist.toArray(new String[alist.size()]);
 		dogList.setModel(new DefaultComboBoxModel<String>(dogNames));
 		for (int i = 0; i < actualContest.size(); i++) {
 			if (actualContest.get(i).getName().equals("Current Contest")) {
-				actualContest.get(i).addDog(name, id, owner, gender, groom, obedience, social, fetch);
+				actualContest.get(i).addDog(name, id, owner, gender, groom, obedience, social, fetch, dnd);
+				ActualDog x = actualContest.get(i).findDog(name);
+				if(!x.isFetch())
+					x.setfScore(-1);
+				if(!x.isGrooming())
+					x.setgScore(-1);
+				if(!x.isObedience())
+					x.setoScore(-1);
+				if(!x.isSocialization())
+					x.setsScore(-1);
+				
 			}
 
 		}
@@ -181,7 +184,7 @@ public class ContestView extends JPanel {
 				textField.setText("");
 				textField.setText(typedString.substring(0, 2));
 			}
-			System.out.println(textField.getText());
+			
 
 			if (typedString.length() == 2) {
 				if (typedString.charAt(1) != '0') {
@@ -194,7 +197,7 @@ public class ContestView extends JPanel {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyChar() == '\n') {
-				System.out.println(e.getKeyChar());
+				//System.out.println(e.getKeyChar());
 				calculateMedian();
 			}
 
@@ -252,7 +255,24 @@ public class ContestView extends JPanel {
 		}
 
 	}
+	
+	public void updateDogNames() {
+		for(int i = 0; i < actualContest.size(); i++)
+		{
+			if(actualContest.get(i).getName().equals("Current Contest")) {
+				
+				alist = actualContest.get(i).getDogNames();
+				
+				dogNames = alist.toArray(new String[alist.size()]);
+				dogList.setModel(new DefaultComboBoxModel<String>(dogNames));
+			}
+		}
+		
 
+		dogNames = alist.toArray(new String[alist.size()]);
+		dogList.setModel(new DefaultComboBoxModel<String>(dogNames));
+	}
+	
 	protected boolean areFieldsValid() {
 		return isNumber(judge1Field.getText(), judge2Field.getText(), judge3Field.getText(), judge4Field.getText()
 				, judge5Field.getText());
@@ -269,6 +289,15 @@ public class ContestView extends JPanel {
 		
 		
 	}
+	
+	public void addnewcontest() {
+		actualContest.get(actualContest.size()-1).setName(Integer.toString(year));
+		actualContest.add(new ContestsClass("Current Contest"));
+		year++;
+	}
+	
+	
+	
 
 	private void addComponents() {
 		// setBackground(Color.BLACK);
@@ -365,22 +394,18 @@ public class ContestView extends JPanel {
 						if (cat.equals("Grooming") && actualContest.get(i).findDog((String) dogList.getSelectedItem()).getgScore() != 0) {
 							
 							finalizeButton.setEnabled(false);
-							System.out.println("1");
 						}
 						
 						else if (cat.equals("Obedience") && actualContest.get(i).findDog((String) dogList.getSelectedItem()).getoScore() != 0) {
 							finalizeButton.setEnabled(false);
-							System.out.println("2");
 						}
 						
 						else if (cat.equals("Socialization") && actualContest.get(i).findDog((String) dogList.getSelectedItem()).getsScore() != 0) {
 							finalizeButton.setEnabled(false);
-							System.out.println("3");
 						}
 						
 						else if (cat.equals("Fetch") && actualContest.get(i).findDog((String) dogList.getSelectedItem()).getfScore() != 0) {
 							finalizeButton.setEnabled(false);
-							System.out.println("4");
 						}
 							
 						else
@@ -393,6 +418,12 @@ public class ContestView extends JPanel {
 				}
 			}
 		});
+		
+		
+		
+		
+		
+		
 		judge1Field = new JTextField("Enter Score (0-10)");
 		judge1Field.addKeyListener(new ContestViewKeyListener(judge1Field));
 		judge1Field.getDocument().addDocumentListener(new DocumentListener() {
@@ -508,7 +539,7 @@ public class ContestView extends JPanel {
 					calculateMedian();				
 			}
 		});
-		median = new JTextField("Press Enter to calculate", 2);
+		median = new JTextField("", 2);
 		median.setEditable(false);
 
 		judge1Field.addFocusListener(new ContestViewFocusListener(judge1Field));

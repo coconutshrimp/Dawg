@@ -108,13 +108,7 @@ public class Register extends JPanel {
 			}
 		});
 		genderDropDown.setSelectedIndex(0);
-		genderDropDown.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Hello");
-			}
-		});
+		
 		ownerField = new JTextField("Enter Owner's Name", 10);
 		ownerField.addActionListener(controller);
 		ownerField.addFocusListener(new FocusListener() {

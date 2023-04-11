@@ -31,14 +31,14 @@ public class Records extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JList<String> contestsList;
 	private ArrayList<String> Acontests = new ArrayList<String>();
-	
+	private int year = 2023;
 	
 	private ControllingFrame controller;
 
 	public Records() {
 		
+		controller = ControllingFrame.getInstance();
 		addComponents();
-
 	}
 	
 	public ArrayList<String> getArray(){
@@ -46,7 +46,11 @@ public class Records extends JPanel {
 		
 	}
 	
-
+	public void clearField() {
+		contestsList.clearSelection();
+	}
+	
+	
 
 	private class RecordsViewListener implements ListSelectionListener {
 
@@ -84,23 +88,26 @@ public class Records extends JPanel {
 		JScrollPane listScrollPane = new JScrollPane(contestsList);
 		
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JTextField contestField = new JTextField(20);
-		bottomPanel.add(contestField);
+		
+		
 		JButton button = new JButton("New Contest");
 		button.addActionListener(controller);
 		button.setActionCommand("New");
-		button.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//contest.addContest(contestField.getText());
-				Acontests.add(contestField.getText());
-				String[] newcontests = Acontests.toArray(new String[Acontests.size()]);
-				contestsList.setListData(newcontests);
-				contestField.setText("");
-				
-			}
-		});
+//		button.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				//contest.addContest(contestField.getText());
+//				int size = Acontests.size();
+//				Acontests.set(size-1, Integer.toString(year));
+//				Acontests.add("Current Contest");
+//				String[] newcontests = Acontests.toArray(new String[Acontests.size()]);
+//				contestsList.setListData(newcontests);
+//				year++;
+//				
+//				
+//			}
+//		});
 		
 		
 		

@@ -8,7 +8,9 @@ public class ContestsClass {
 	private int score;
 	private ActualDog dog;
 	private int DogCount;
+	private RecordsPanel rc;
 	ArrayList<ActualDog> doglist = new ArrayList<ActualDog>();
+	
 	
 	
 	public ContestsClass(String name) {
@@ -31,6 +33,8 @@ public class ContestsClass {
 				doglist.get(i).setgScore(score);
 				System.out.println(doglist.get(i).getName() + "'s score is: " + doglist.get(i).getgScore());
 			}
+		dogs();
+		
 	}
 	
 	public void Socialization(String ID, int score)
@@ -41,6 +45,7 @@ public class ContestsClass {
 				doglist.get(i).setsScore(score);
 				System.out.println(doglist.get(i).getName() + "'s score is: " + doglist.get(i).getsScore());
 			}
+		dogs();
 	}
 	
 	public void Obedience(String ID, int score)
@@ -51,6 +56,8 @@ public class ContestsClass {
 				doglist.get(i).setoScore(score);
 				System.out.println(doglist.get(i).getName() + "'s score is: " + doglist.get(i).getoScore());
 			}
+		dogs();
+	
 	}
 	
 	public void Fetch(String ID, int score)
@@ -60,11 +67,30 @@ public class ContestsClass {
 				doglist.get(i).setfScore(score);
 				System.out.println(doglist.get(i).getName() + "'s score is: " + doglist.get(i).getfScore());
 			}
+		dogs();
+		
+	}
+	
+	public void dogs() {
+		for(int i = 0; i < DogCount; i++) {
+			String n = doglist.get(i).getName();
+			int g = doglist.get(i).getgScore();
+			int o = doglist.get(i).getoScore();
+			int s = doglist.get(i).getsScore();
+			int f = doglist.get(i).getfScore();
+			System.out.println(n + "'s Scores: " + g + " " + o + " " + s + " " + f );
+		}
+		
+	}
+	
+
+	public ArrayList<ActualDog> sendArray() {
+		return doglist;
+		
+		
 	}
 	
 	
-	
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -92,10 +118,21 @@ public class ContestsClass {
 
 		return doglist.get(0);
 	}
-
+	
+	public ArrayList<String> getDogNames(){
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("Dog Name");
+		for(int i = 0; i < DogCount; i++)
+		{
+			names.add(doglist.get(i).getName());
+		}
+		
+		return names;
+	}
+	
 	public void addDog(String name, String id, String owner, String gender, boolean groom,
-			boolean obedience, boolean social, boolean fetch) {
-		ActualDog x = new ActualDog(name, id, owner, gender, groom, obedience, social, fetch);
+			boolean obedience, boolean social, boolean fetch, DnDImagePanel dnd) {
+		ActualDog x = new ActualDog(name, id, owner, gender, groom, obedience, social, fetch, dnd);
 		doglist.add(x);
 		DogCount++;
 		for(int i = 0; i < DogCount; i++) {

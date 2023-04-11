@@ -90,11 +90,13 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 
 	public static ControllingFrame getInstance() {
 		return getInstance("Demo");
+		
 	}
 
 	public static void setSelectedContest(String contest) {
 		CardLayout layout = (CardLayout) informationPanel.getLayout();
 		layout.show(informationPanel, "Table");
+		
 	}
 
 	public static ControllingFrame getInstance(String title) {
@@ -183,13 +185,10 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 			x2 = register.getCbp().getGrooming();
 			x3 = register.getCbp().getSocialization();
 			x4 = register.getCbp().getObedience();
-			System.out.println(x1);
-			System.out.println(x2);
-			System.out.println(x3);
-			System.out.println(x4);
 			if(x1 == false && x2 == false && x3 == false && x4 == false)
 			{
 				JOptionPane.showMessageDialog(this, categoryError, "Error", JOptionPane.ERROR_MESSAGE);
+				FinalizeRegister = false;
 			}
 
 			DnDImagePanel imgPanel = register.getDnDImagePanel();
@@ -205,7 +204,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 			if (FinalizeRegister) {
 				contest.addDog(register.getReg().getNameField().getText(), register.getReg().getIdField().getText(), register.getReg().getOwnerField().getText(), 
 						register.getReg().getGenderDropDown(), register.getCbp().getGrooming(), register.getCbp().getObedience(), register.getCbp().getSocialization(),
-						register.getCbp().getFetch());
+						register.getCbp().getFetch(), register.getDnDImagePanel());
 				//contest.
 				//ActualDog x = new ActualDog(register.getReg(), register.getCbp(), register.getDnDImagePanel());\
 				register.getReg().addOne();
@@ -263,9 +262,13 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 		// break;
 		case "Records":
 			if (o instanceof JButton) {
+				records.clearField();
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Records");
 			}
+			
+			
+			
 			break;
 
 		case "Register":
@@ -282,6 +285,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Contest View");
+				contest.updateDogNames();
 			
 			}
 			break;
@@ -306,7 +310,9 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 		case "New":
 			if (o instanceof JButton) {
 
-				System.out.println("Hooray");
+				contest.addnewcontest();
+				
+				
 			}
 			break;
 		}

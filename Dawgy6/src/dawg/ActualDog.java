@@ -33,7 +33,7 @@ public class ActualDog implements Serializable {
 
 
 	public ActualDog(String name, String id, String owner, String gender, boolean groom,
-			boolean obedience, boolean social, boolean fetch) {
+			boolean obedience, boolean social, boolean fetch, DnDImagePanel dnd) {
 		this.name = name;
 		this.id = id;
 		this.owner = owner;
@@ -173,6 +173,10 @@ public class ActualDog implements Serializable {
 
 	public void setFetch(boolean fetch) {
 		this.fetch = fetch;
+	}
+	
+	public Image getImage() {
+		return image;
 	}
 
 
