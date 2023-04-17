@@ -150,4 +150,26 @@ public class ContestsClass {
 		return 0;
 	}
 
+
+	public boolean isScored() {
+		boolean check = true;
+		for(int i = 0; i < DogCount; i++) {
+			if(doglist.get(i).getgScore() == 0 || doglist.get(i).getfScore() == 0 || doglist.get(i).getoScore() == 0 || doglist.get(i).getsScore() == 0)
+				check = false;
+		}
+		
+		return check;
+		
+		
+	}
+	
+	public String notScored() {
+		String str = "";
+		for(int i = 0; i < DogCount; i++) {
+			if(doglist.get(i).getgScore() == 0 || doglist.get(i).getfScore() == 0 || doglist.get(i).getoScore() == 0 || doglist.get(i).getsScore() == 0)
+				str += doglist.get(i).getName() + " ";
+		}
+		return str;
+	}
+
 }

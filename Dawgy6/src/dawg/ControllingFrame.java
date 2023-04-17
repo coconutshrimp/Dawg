@@ -311,9 +311,18 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 			if (o instanceof JButton) {
 				
 				//Check to make sure all data is scored for current contest
-				records.addContest();
-				contest.addnewcontest();
-				
+				if(contest.allScored()) {
+					
+					records.addContest();
+					contest.addnewcontest();
+				}
+				else
+				{
+					String notScored = contest.findNotScored();
+					notScored.trim();
+					String loginError = categoryError = "<html>Please score the following dogs: " + notScored + "</html>";
+					JOptionPane.showMessageDialog(this, loginError, "Error", JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 			break;

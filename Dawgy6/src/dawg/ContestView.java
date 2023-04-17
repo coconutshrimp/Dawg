@@ -60,6 +60,7 @@ public class ContestView extends JPanel {
 	private JComboBox<String> categoryList = new JComboBox<String>(categories);
 
 	ArrayList<ContestsClass> contestsWithDog = new ArrayList<>();
+	
 
 	public ContestView() {
 		this.controller = ControllingFrame.getInstance();
@@ -191,6 +192,9 @@ public class ContestView extends JPanel {
 					textField.setText("10");
 				}
 			}
+			
+			if (Integer.parseInt(typedString) > 10)
+				textField.setText("10");
 
 		}
 
@@ -205,6 +209,39 @@ public class ContestView extends JPanel {
 
 	}
 
+	public boolean allScored() {
+		
+		for(int i = 0; i < actualContest.size(); i++){
+			if(actualContest.get(i).getName().equals("Current Contest"))
+			{
+				if(actualContest.get(i).isScored())
+					return true;
+				else
+					return false;
+			}
+		}
+		return false;
+		
+		
+	}
+	
+	public String findNotScored() {
+		for(int i = 0; i < actualContest.size(); i++){
+			if(actualContest.get(i).getName().equals("Current Contest"))
+			{
+				return actualContest.get(i).notScored();
+					
+				
+			}
+		}
+		return null ;
+		
+	}
+	
+	
+	
+	
+	
 	private boolean isNumber(String... strings) {
 		String str = "";
 		for (String s : strings)
@@ -336,6 +373,9 @@ public class ContestView extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				if(!median.getText().equals("")) {
+				
 				String name = (String) dogList.getSelectedItem(), m = median.getText();
 				for(int i = 0; i < actualContest.size(); i++)
 					if(actualContest.get(i).getName().equals("Current Contest"))
@@ -362,7 +402,7 @@ public class ContestView extends JPanel {
 						break;
 						
 					}
-					System.out.println(name + " " + dog.getfScore() + " " + dog.getoScore() + " " + dog.getgScore() + " " + dog.getsScore());
+					
 				}}
 				
 				if (isNumber(judge1Field.getText(), judge2Field.getText(), judge3Field.getText(), judge4Field.getText(),
@@ -376,7 +416,7 @@ public class ContestView extends JPanel {
 					categoryList.setSelectedIndex(0);
 					dogList.setSelectedIndex(0);
 				}
-
+				}
 			}
 		});
 		
@@ -590,5 +630,7 @@ public class ContestView extends JPanel {
 		);
 
 	}
+
+	
 
 }
