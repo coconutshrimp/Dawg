@@ -4,73 +4,71 @@
 package dawg;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.awt.Component;
+import java.awt.Font;
 
 /**
  * @author jammavi
  *
  */
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 
 import config.ConfigurationParameters;
 import dawg.TableImageRenderer;
 
 public class RecordsPanel extends JPanel implements ConfigurationParameters {
 	private static final long serialVersionUID = 1L;
-	JTable table;
-	
+	ContestantTable table;
+	ContestsClass cc;
 	ContestantIcon image = new ContestantIcon("/images/coyoteSad.png");
-	Object data[][];
+	private ControllingFrame controller;
+
 	public RecordsPanel() {
-		
+		controller = ControllingFrame.getInstance();
 		addComponents();
 	}
 
 	private void addComponents() {
-		String column[] = { "Name", "Id", "Gender", "Owner's Name", "Grooming", "Obedience", "Socialization", "Fetch",
-				"Image" };
-		Object data[][] = { { "Eddie", "1", "Male", "Jake", "N/A", "8", "9", "N/A", image } };
- 
-		table = new ContestantTable(column, data);
-		JTableHeader header = table.getTableHeader();
-		header.setBackground(Color.yellow);
-		// JScrollPane pane = new JScrollPane(table);
-		table.setPreferredScrollableViewportSize(table.getPreferredSize());
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		// table.setSize(width, height);
-		JScrollPane pane = new JScrollPane(table);
-		add(pane);
 
-	}
-	
-	
-	public void updateTable(ArrayList<ActualDog> list) {
-		data = new Object[list.size()][9];
-		for(int i = 0; i < list.size(); i++) {
-			data[i][0] = list.get(i).getName();
-			data[i][1] = list.get(i).getId();
-			data[i][2] = list.get(i).getGender();
-			data[i][3] = list.get(i).getOwner();
-			data[i][4] = list.get(i).getgScore();
-			data[i][5] = list.get(i).getoScore();
-			data[i][6] = list.get(i).getsScore();
-			data[i][7] = list.get(i).getfScore();
-			
+		Object data[][];
+		// Object data[][] = cc.formatArray(cc.getAlist());
+		cc = (ContestsClass) Persistance.restore("/db/database");
+		if (cc == null || (cc != null && cc.getAlist() == null)) {
+			data = new Object[0][0];
+		} else {
+			data = cc.formatArray(cc.getAlist());
 		}
-		String column[] = { "Name", "Id", "Gender", "Owner's Name", "Grooming", "Obedience", "Socialization", "Fetch",
-		"Image" };
-		table = new ContestantTable(column, data);
+		// controller.getOverallState();
+		table = new ContestantTable(data);
+
 		JTableHeader header = table.getTableHeader();
 		header.setBackground(Color.yellow);
 		// JScrollPane pane = new JScrollPane(table);
-		table.setPreferredScrollableViewportSize(table.getPreferredSize());
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		// table.setSize(width, height);
-		JScrollPane pane = new JScrollPane(table);
-		add(pane);
-	}
-	
+		// table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		for (int i = 0; i < 8; i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer((TableCellRenderer) new DefaultTableCellRenderer() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
-	
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+						boolean hasFocus, int row, int column) {
+					super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+					setFont(new Font("Arial", Font.PLAIN, 20));
+					return this;
+				}
+			});
+
+			table.setSize(width, height);
+
+			JScrollPane pane = new JScrollPane(table);
+			add(pane);
+		}
+
+	}
 }

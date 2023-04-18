@@ -1,8 +1,9 @@
 package dawg;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ContestsClass {
+public class ContestsClass implements Serializable{
 	
 	private String name;
 	private int score;
@@ -20,6 +21,33 @@ public class ContestsClass {
 	
 	}
 
+	public ArrayList<ActualDog> getAlist() {
+		return doglist;
+
+	}
+	
+	public Object[][] formatArray(ArrayList<ActualDog> list) {
+
+		Object[][] data = new Object[list.size()][];
+		int index = 0;
+
+		for (ActualDog dog : list) {
+			Object[] dogInfo = new Object[9];
+			dogInfo[0] = dog.getName();
+			dogInfo[1] = dog.getId();
+			dogInfo[2] = dog.getGender();
+			dogInfo[3] = dog.getOwner();
+			dogInfo[4] = dog.getfScore();
+			dogInfo[5] = dog.getgScore();
+			dogInfo[6] = dog.getoScore();
+			dogInfo[7] = dog.getsScore();
+			// dogInfo[8] = dog.getImage();
+			data[index++] = dogInfo;
+		}
+
+		return data;
+
+	}
 
 	public String getName() {
 		return name;

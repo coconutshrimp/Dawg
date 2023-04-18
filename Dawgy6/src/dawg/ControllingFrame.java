@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.table.DefaultTableModel;
 
 import auth.Authenticator;
 import config.ConfigurationParameters;
@@ -42,6 +43,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 	// corresponding button panel.
 	private JPanel containerPanel;
 	private static JPanel informationPanel;
+	private static String info;
 	private JPanel buttonPanel;
 	private String loginError = "<html>Wrong <u>Username</u> and <u>Password</u> combination!<br>&nbsp;&nbsp;&nbsp;&nbsp; Try again!</html>",
 			pictureError = "No Image!";
@@ -96,6 +98,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 	public static void setSelectedContest(String contest) {
 		CardLayout layout = (CardLayout) informationPanel.getLayout();
 		layout.show(informationPanel, "Table");
+		info = contest;
 		
 	}
 
@@ -202,6 +205,33 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 			
 
 			if (FinalizeRegister) {
+				
+//				//contestclass.addDog(register.getReg().getNameField().getText(),
+//						register.getReg().getIdField().getText(), register.getReg().getOwnerField().getText(),
+//						register.getReg().getGenderDropDown(), register.getCbp().getGrooming(),
+//						register.getCbp().getObedience(), register.getCbp().getSocialization(),
+//						register.getCbp().getFetch(), register.getDnDImagePanel());
+				Object[] data = new Object[8];
+
+				data[0] = register.getReg().getNameField().getText();
+				data[1] = register.getReg().getIdField().getText();
+				data[3] = register.getReg().getOwnerField().getText();
+				data[2] = register.getReg().getGenderDropDown();
+				data[4] = register.getCbp().getGrooming();
+				data[5] = register.getCbp().getObedience();
+				data[6] = register.getCbp().getSocialization();
+				data[7] = register.getCbp().getFetch();
+
+//				for (int i = 0; i < data.length; i++) {
+//					data[i] = "hello";
+//				} 
+
+				// ControllingFrame collect all the data into an array
+				DefaultTableModel model = (DefaultTableModel) table.table.getModel();
+				// model.addRow(dog);
+				model.addRow(data);
+				
+				table.repaint();
 				contest.addDog(register.getReg().getNameField().getText(), register.getReg().getIdField().getText(), register.getReg().getOwnerField().getText(), 
 						register.getReg().getGenderDropDown(), register.getCbp().getGrooming(), register.getCbp().getObedience(), register.getCbp().getSocialization(),
 						register.getCbp().getFetch(), register.getDnDImagePanel());
@@ -236,6 +266,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 				} else {
 					JOptionPane.showMessageDialog(this, loginError, "Login/Password", JOptionPane.ERROR_MESSAGE);
 					authButtons.reset();
+					
 				}
 			}
 			break;
@@ -265,6 +296,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 				records.clearField();
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Records");
+				
 			}
 			
 			
@@ -349,5 +381,6 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 			System.out.println(regLogin);
 		}
 	}
+	
 
 }

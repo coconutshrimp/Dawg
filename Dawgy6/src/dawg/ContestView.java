@@ -77,7 +77,10 @@ public class ContestView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String selected = (String) dogList.getSelectedItem();
 				// for(ContestsClass actualContestsClass
+			
 				for (int i = 0; i < actualContest.size(); i++) {
+					System.out.println(actualContest.size());
+					System.out.println(i);
 					if (actualContest.get(i).getName().equals("Current Contest")) {
 						ArrayList<String> temp = new ArrayList<>();
 						temp.add("Select a category");
@@ -427,7 +430,7 @@ public class ContestView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				String cat = (String) categoryList.getSelectedItem(); 
-				
+			
 				for (int i = 0; i < actualContest.size(); i++) {
 					if(actualContest.get(i).getName().equals("Current Contest")) {
 						

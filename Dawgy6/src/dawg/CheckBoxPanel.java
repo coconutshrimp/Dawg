@@ -12,8 +12,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
-
 /**
  * @author jammavi
  *
@@ -29,14 +27,12 @@ public class CheckBoxPanel extends JPanel {
 
 	public class DogInfo {
 		String name;
-		
+
 	}
-	 
-	
+
 	public CheckBoxPanel() {
 		addComponents();
 	}
-
 
 	private void addComponents() {
 		Font font = new Font("Arial", Font.PLAIN, 16);
@@ -79,33 +75,27 @@ public class CheckBoxPanel extends JPanel {
 		add(saveButton);
 	}
 
-
 	public boolean getFetch() {
 		return fetch.isSelected();
 	}
-	
+
 	public void reset() {
 		fetch.setSelected(false);
 		grooming.setSelected(false);
 		obedience.setSelected(false);
 		socialization.setSelected(false);
 	}
-	
+
 	public boolean getGrooming() {
 		return grooming.isSelected();
 	}
-	
+
 	public boolean getObedience() {
 		return obedience.isSelected();
 	}
-	
+
 	public boolean getSocialization() {
 		return socialization.isSelected();
 	}
-	
 
-
-
-	
-	
 }

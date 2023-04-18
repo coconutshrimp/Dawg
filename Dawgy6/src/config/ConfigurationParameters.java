@@ -10,8 +10,8 @@ package config;
 public interface ConfigurationParameters {
 
 	
-	public int width = 1200;
-	public int height = 900;
+	public int width = 1300;
+	public int height = 1000;
 	
 	
 	
