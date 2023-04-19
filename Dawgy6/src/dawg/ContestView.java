@@ -61,7 +61,15 @@ public class ContestView extends JPanel {
 
 	ArrayList<ContestsClass> contestsWithDog = new ArrayList<>();
 	
-
+	public ContestsClass getContests(){
+		for(int i = 0; i < actualContest.size(); i++ )
+		{
+			if(actualContest.get(i).getName().equals("Current Contest"))
+				return actualContest.get(i);
+		}
+		return actualContest.get(0);
+	}
+	
 	public ContestView() {
 		this.controller = ControllingFrame.getInstance();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));

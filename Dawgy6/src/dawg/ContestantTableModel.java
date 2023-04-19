@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
 public class ContestantTableModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
-	static String column[] = { "Name", "Id", "Gender", "Owner's Name", "Grooming", "Obedience", "Socialization", "Fetch",
+	static String column[] = { "Name", "ID", "Gender", "Owner's Name", "Grooming", "Obedience", "Socialization", "Fetch",
 	"Image" };
 	static Object data[][] = { { "Eddie", "1", "Male", "Jake", "N/A", "8", "9", "N/A", null } };
 	

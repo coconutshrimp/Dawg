@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -152,7 +153,12 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 		add(containerPanel, BorderLayout.CENTER);
 
 	}
-
+	
+	public void updateTable(ArrayList<ActualDog> alist) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
@@ -297,6 +303,7 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 				CardLayout layout = (CardLayout) informationPanel.getLayout();
 				layout.show(informationPanel, "Records");
 				
+				updateTable();
 			}
 			
 			
@@ -360,6 +367,47 @@ public class ControllingFrame extends JFrame implements ActionListener, FocusLis
 			break;
 		}
 
+	}
+	
+	private void updateTable() {
+		ContestsClass y = contest.getContests();
+		ArrayList<ActualDog> x = y.getAlist();
+		
+		DefaultTableModel model1 = (DefaultTableModel) table.table.getModel();
+		table.table.getTableHeader().setReorderingAllowed(false);
+		for(int i = 0; i < table.table.getColumnCount(); i++)
+			table.table.getColumnModel().getColumn(i).setResizable(false);
+		
+	
+		model1.setRowCount(0);
+		
+		
+		Object[] data = new Object[8];
+		for(int i = 0; i < x.size(); i++) {
+			data[0] = x.get(i).getName();
+			data[1] = x.get(i).getId();
+			data[2] = x.get(i).getGender();
+			data[3] = x.get(i).getOwner();
+			if(x.get(i).getgScore() == -1)
+				data[4] = "N/A";
+			else
+				data[4] = x.get(i).getgScore();
+			if(x.get(i).getoScore() == -1)
+				data[5] = "N/A";
+			else
+				data[5] = x.get(i).getoScore();
+			if(x.get(i).getsScore() == -1)
+				data[6] = "N/A";
+			else
+				data[6] = x.get(i).getsScore();
+			if(x.get(i).getfScore() == -1)
+				data[7] = "N/A";
+			else
+				data[7] = x.get(i).getfScore();
+			model1.addRow(data);
+		}
+		
+		table.repaint();
 	}
 
 	@Override

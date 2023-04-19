@@ -13,7 +13,7 @@ public class ContestantTable extends JTable {
 	private static final long serialVersionUID = 1L;
 	private final int ROWHEIGHT = 100;
 	private StringBuilder output;
-	private static String[] columnNames = { "Name", "Id", "Gender", "Owner's Name", "Grooming", "Obedience", "Socialization",
+	private static String[] columnNames = { "Name", "ID", "Gender", "Owner's Name", "Grooming", "Obedience", "Socialization",
 			"Fetch", "Image" };
 	
 	public ContestantTable( Object[][] data) {

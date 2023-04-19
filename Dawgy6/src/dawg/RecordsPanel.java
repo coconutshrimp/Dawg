@@ -6,6 +6,7 @@ package dawg;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.ArrayList;
 
 /**
  * @author jammavi
@@ -71,4 +72,6 @@ public class RecordsPanel extends JPanel implements ConfigurationParameters {
 		}
 
 	}
+
+	
 }
