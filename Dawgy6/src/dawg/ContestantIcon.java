@@ -4,15 +4,20 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-public class ContestantIcon extends ImageIcon {
+public class ContestantIcon extends ImageIcon implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+	
+	public ContestantIcon(Image image) {
+		setImage(resize(image, 64, 64));
+	}
+	
 	public ContestantIcon(String path) {
 		try {
 			URL url = ContestantIcon.class.getResource(path);

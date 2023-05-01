@@ -27,17 +27,19 @@ public class Register extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ControllingFrame controller;
 	private final int WIDTH = ConfigurationParameters.width, HEIGHT = ConfigurationParameters.height;
+	private int IDnum = 1;
 
 	private JTextField nameField, idField, ownerField;
 	private ActualDog dog;
-	private int IDnum = 1;
 
-	String[] genders = {"Male", "Female" };
+	String[] genders = { "Male", "Female" };
 	private JComboBox<String> genderDropDown;
 
 	private String name, id, owner, gender;
 	private boolean g, o, s, f;
-	
+	private ContestDescription currentContest;
+	ContestView contest;
+
 	public Register() {
 		this.controller = ControllingFrame.getInstance();
 		// setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -45,8 +47,7 @@ public class Register extends JPanel {
 
 		addComponents();
 	}
-	
-	
+
 	private void addComponents() {
 		// JPanel dndPanel = new DnDImagePanel(controller, "GhoseImageTemplate.png");
 
@@ -56,16 +57,13 @@ public class Register extends JPanel {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(controller);
 		saveButton.setActionCommand("Save");
 
 		nameField = new JTextField("Enter name", 10);
 		nameField.addActionListener(controller);
-		
-		
-		
+
 		nameField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent event) {
@@ -73,7 +71,7 @@ public class Register extends JPanel {
 					nameField.setText("");
 				}
 				nameField.setForeground(Color.BLACK);
-				
+
 			}
 
 			@Override
@@ -85,30 +83,28 @@ public class Register extends JPanel {
 
 			}
 		});
-		
 
-		idField = new JTextField(Integer.toString(IDnum), 10);
+		idField = new JTextField(Integer.toString(controller.getCurrentContest().getDogCount(), 10)); //need to fix
 		idField.addActionListener(controller);
 		idField.setEditable(false);
 
-
 		genderDropDown = new JComboBox<>(genders);
-		
+
 		genderDropDown.addFocusListener(new FocusListener() {
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				genderDropDown.setForeground(Color.BLACK);
-				
+
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
-				genderDropDown.setForeground(Color.BLACK);				
+				genderDropDown.setForeground(Color.BLACK);
 			}
 		});
 		genderDropDown.setSelectedIndex(0);
-		
+
 		ownerField = new JTextField("Enter Owner's Name", 10);
 		ownerField.addActionListener(controller);
 		ownerField.addFocusListener(new FocusListener() {
@@ -129,7 +125,7 @@ public class Register extends JPanel {
 
 			}
 		});
-		
+
 		JLabel label1 = new JLabel("Name: ", JLabel.CENTER);
 		label1.setLabelFor(nameField);
 
@@ -143,8 +139,7 @@ public class Register extends JPanel {
 		label4.setLabelFor(ownerField);
 
 		JButton button = new JButton("Finalize Info");
-		
-		
+
 		layout.setHorizontalGroup(layout.createSequentialGroup()
 				// .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 				// .addComponent(dndPanel))
@@ -166,9 +161,10 @@ public class Register extends JPanel {
 				.addGap(15)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(label3)
 						.addComponent(genderDropDown))
-				.addGap(15).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(label4)
+				.addGap(15)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(label4)
 						.addComponent(ownerField))
-				
+
 				.addGap(15)
 
 		);
@@ -187,42 +183,42 @@ public class Register extends JPanel {
 		this.nameField.setText(name);
 	}
 
-    public void setNameRed() {
-    	nameField.setSelectionStart(0);
-    	nameField.setSelectionEnd(nameField.getText().length());
-    	nameField.setForeground(Color.RED);;
-    }
+	public void setNameRed() {
+		nameField.setSelectionStart(0);
+		nameField.setSelectionEnd(nameField.getText().length());
+		nameField.setForeground(Color.RED);
+		;
+	}
+
 	public JTextField getIdField() {
 		return idField;
 	}
-
-
 
 	public void setIdField(String id) {
 		this.idField.setText(id);
 	}
 
-
 	public void setIDRed() {
-    	idField.setSelectionStart(0);
-    	idField.setSelectionEnd(nameField.getText().length());
-    	idField.setForeground(Color.RED);;
-    }
-	
+		idField.setSelectionStart(0);
+		idField.setSelectionEnd(nameField.getText().length());
+		idField.setForeground(Color.RED);
+		;
+	}
+
 	public JTextField getOwnerField() {
 		return ownerField;
 	}
 
-
 	public void setOwnerField(String owner) {
 		ownerField.setText(owner);
 	}
-	
+
 	public void setOwnerRed() {
-    	ownerField.setSelectionStart(0);
-    	ownerField.setSelectionEnd(nameField.getText().length());
-    	ownerField.setForeground(Color.RED);;
-    }
+		ownerField.setSelectionStart(0);
+		ownerField.setSelectionEnd(nameField.getText().length());
+		ownerField.setForeground(Color.RED);
+		;
+	}
 
 	public String getGenderDropDown() {
 		return (String) genderDropDown.getSelectedItem();
@@ -231,18 +227,17 @@ public class Register extends JPanel {
 	public void setGenderDropDown(int index) {
 		genderDropDown.setSelectedIndex(index);
 	}
-	
-	public void setGenderRed() {
-		
-    	genderDropDown.setForeground(Color.RED);
-    }
 
-	public void addOne()
-	{
+	public void setGenderRed() {
+
+		genderDropDown.setForeground(Color.RED);
+	}
+
+	public void addOne() {
 		IDnum++;
 	}
-	
-	public int getIDcount() {
+
+	public int getIDCount() {
 		return IDnum;
 	}
 

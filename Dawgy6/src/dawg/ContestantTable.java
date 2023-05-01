@@ -1,8 +1,10 @@
 package dawg;
 
 import java.awt.Dimension;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -13,18 +15,20 @@ public class ContestantTable extends JTable {
 	private static final long serialVersionUID = 1L;
 	private final int ROWHEIGHT = 100;
 	private StringBuilder output;
-	private static String[] columnNames = { "Name", "ID", "Gender", "Owner's Name", "Grooming", "Obedience", "Socialization",
-			"Fetch", "Image" };
-	
-	public ContestantTable( Object[][] data) {
-		super(new ContestantTableModel(data, columnNames));
+//	private static String[] columnNames = { "Name", "ID", "Gender", "Owner's Name", "Grooming", "Obedience",
+//			"Socialization", "Fetch", "Image" };
+//
+//	private Class[] colClasses = { String.class, Integer.class, JComboBox.class, String.class, String.class,
+//			String.class, String.class, String.class, ImageIcon.class };
+
+	public ContestantTable(ContestantTableModel model) {
+		super(model);
 		getSelectionModel().addListSelectionListener(new RowListener());
 		setRowHeight(ROWHEIGHT);
 		setPreferredScrollableViewportSize(new Dimension(900, 300));
 		setFillsViewportHeight(true);
-		
-
 		setDefaultRenderer(ImageIcon.class, new TableImageRenderer(getDefaultRenderer(ImageIcon.class)));
+		//setDefaultRenderer(Image.class, new TableImageRenderer(getDefaultRenderer(Image.class)));
 	}
 
 	private void outputSelection() {
@@ -48,7 +52,7 @@ public class ContestantTable extends JTable {
 			}
 			output = new StringBuilder();
 			output.append("ROW SELECTION EVENT. ");
-			outputSelection();
+			//outputSelection();
 			System.out.println(output);
 		}
 	}

@@ -26,25 +26,27 @@ import config.ConfigurationParameters;
 public class BasicImagePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	protected Image image;
+	protected Image image, defaultImage;
 	private ControllingFrame controller;
-	private int width, height;
-	private  Image defaultImage;
-	private int defaultHashCode, currentHashCode;
-	
+	private final String defaultFile = "images/GhoseImageTemplate.png";
+
 	public BasicImagePanel(ControllingFrame controller) {
 		this.controller = controller;
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		defaultImage = getImageFromPackage(defaultFile);
 		setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		if (image != null) {
-			g.clearRect(0, 0, getWidth(), getHeight());
-			Image img = letterboxImage(image, getWidth(), getHeight());
-			g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+		g.clearRect(0, 0, getWidth(), getHeight());
+		Image img = null;
+		if (image == null) {
+			img = letterboxImage(defaultImage, getWidth(), getHeight());
+		} else {
+			img = letterboxImage(image, getWidth(), getHeight());
 		}
+		g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
 	}
 
 	protected static ImageIcon createImageIcon(String path, String description) {
@@ -70,71 +72,73 @@ public class BasicImagePanel extends JPanel {
 			// use ImageIO to read the image in
 			image = ImageIO.read(url);
 			if (image == null)
-				throw new NullPointerException("Could not read image contents from \"" 
-						+ path + "\"");
+				throw new NullPointerException("Could not read image contents from \"" + path + "\"");
 		} catch (IOException e) {
 			System.err.println("Failed to load: \"" + path + "\"");
 		}
 		return image;
 	}
-	
+
 	public void setImage(Image image) {
-		if (defaultImage == null) {
-			defaultImage = image;
-			defaultHashCode = image.hashCode();
-		} 
-		currentHashCode = image.hashCode();
-		this.image = image;
+		if (image != null) {
+			this.image = image;
+		}
 	}
-	
+
+	public void setImageToDefault() {
+		this.image = null;
+	}
+
 	public ControllingFrame getController() {
 		return controller;
 	}
 
 	public Image getImage() {
-		return image;
+		if (image == null)
+			return defaultImage;
+		else
+			return image;
 	}
 
 	public Image getCurrentImage(String path) {
 		return image;
 	}
-	
+
 	public void resetImage() {
-		setImage(defaultImage);
+		image = null;
 	}
+
+
 	public boolean imageChanged() {
-		return currentHashCode != defaultHashCode;
+		return image != null;
 	}
-	
-	public Image letterboxImage(Image srcImage, 
-			int panelWidth, int panelHeight) {
+
+	public Image letterboxImage(Image srcImage, int panelWidth, int panelHeight) {
 		BufferedImage img = new BufferedImage(panelWidth, panelHeight, BufferedImage.TYPE_3BYTE_BGR);
 		Graphics gc = img.getGraphics();
 
-		double scaleFactor = 1.0;		
+		double scaleFactor = 1.0;
 
 		int imageWidth = srcImage.getWidth(null);
 		int imageHeight = srcImage.getHeight(null);
-		
 
 		// Scale by the longer edge
 		if (imageWidth > imageHeight) {
-			scaleFactor = panelWidth/(double)imageWidth;
+			scaleFactor = panelWidth / (double) imageWidth;
 		} else {
-			scaleFactor = panelHeight/(double)imageHeight;
+			scaleFactor = panelHeight / (double) imageHeight;
 		}
-		
+
 		int sx1 = 0;
 		int sy1 = 0;
 		int sx2 = imageWidth;
 		int sy2 = imageHeight;
-		
-		int dx1 = (panelWidth-(int)(imageWidth*scaleFactor))/2;
-		int dy1 = (panelHeight-(int)(imageHeight*scaleFactor))/2;
-		int dx2 = (panelWidth+(int)(imageWidth*scaleFactor))/2;
-		int dy2 = (panelHeight+(int)(imageHeight*scaleFactor))/2;
-		
- 
+
+		int dx1 = (panelWidth - (int) (imageWidth * scaleFactor)) / 2;
+		int dy1 = (panelHeight - (int) (imageHeight * scaleFactor)) / 2;
+		int dx2 = (panelWidth + (int) (imageWidth * scaleFactor)) / 2;
+		int dy2 = (panelHeight + (int) (imageHeight * scaleFactor)) / 2;
+
 		gc.setColor(getBackground());
 		gc.fillRect(0, 0, panelWidth, panelHeight);
 		gc.drawImage(srcImage, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);

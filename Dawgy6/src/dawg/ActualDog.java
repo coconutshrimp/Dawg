@@ -2,20 +2,20 @@ package dawg;
 
 import java.awt.Image;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ActualDog implements Serializable {
 
 	/**
 	 * 
 	 */
-	//Test
 	private static final long serialVersionUID = 1L;
 	String name, id, owner, gender;
-	Image image;
+	ContestantIcon image;
 	boolean grooming, obedience, socialization, fetch;
 	int gScore, oScore, sScore, fScore;
 
-	public ActualDog(Register reg, CheckBoxPanel cbp, DnDImagePanel dnd) {
+	public ActualDog(Register reg, CheckBoxPanel cbp, ContestantIcon icon) {
 		name = reg.getNameField().getText();
 		id = reg.getIdField().getText();
 		owner = reg.getOwnerField().getText();
@@ -24,7 +24,7 @@ public class ActualDog implements Serializable {
 		grooming = cbp.getGrooming();
 		socialization = cbp.getSocialization();
 		obedience = cbp.getObedience();
-		image = dnd.getImage();
+		image = icon;
 		
 		
 		System.out.println("Name: " + name + " Owner: " + owner + " Gender: " + gender + " ID: " + id + " Fetch: "
@@ -34,7 +34,7 @@ public class ActualDog implements Serializable {
 
 
 	public ActualDog(String name, String id, String owner, String gender, boolean groom,
-			boolean obedience, boolean social, boolean fetch, DnDImagePanel dnd) {
+			boolean obedience, boolean social, boolean fetch, ContestantIcon icon) {
 		this.name = name;
 		this.id = id;
 		this.owner = owner;
@@ -43,14 +43,29 @@ public class ActualDog implements Serializable {
 		this.obedience = obedience;
 		this.socialization = social;
 		this.fetch = fetch;
-		gScore = 0;
-		oScore = 0;
-		sScore = 0; 
-		fScore = 0;
-		
+		this.image = icon;
+		if(!grooming)
+			gScore = -1;
+		else
+			gScore = 0;
+		if(!socialization)
+			sScore = -1;
+		else
+			sScore = 0;
+		if(!obedience)
+			oScore = -1;
+		else
+			oScore = 0;
+		if(!fetch)
+			fScore = -1;
+		else
+			fScore = 0;
+
 
 	}
 	 
+
+	
 	public int getgScore() {
 		return gScore;
 	}
@@ -122,6 +137,9 @@ public class ActualDog implements Serializable {
 		return gender;
 	}
 
+	public ContestantIcon getImage() {
+		return image;
+	}
 
 
 	public void setGender(String gender) {
@@ -176,9 +194,6 @@ public class ActualDog implements Serializable {
 		this.fetch = fetch;
 	}
 	
-	public Image getImage() {
-		return image;
-	}
 
 
 

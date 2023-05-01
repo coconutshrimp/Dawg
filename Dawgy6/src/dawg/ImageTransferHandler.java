@@ -1,5 +1,6 @@
 package dawg;
 
+import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -19,7 +20,7 @@ class ImageTransferHandler extends TransferHandler {
 	private DataFlavor imageFlavor = DataFlavor.imageFlavor;
 	private DnDImagePanel panel;
 
-	private BufferedImage image;
+	private Image image;
 
 	public ImageTransferHandler(DnDImagePanel panel) {
 		this.panel = panel;
@@ -41,9 +42,10 @@ class ImageTransferHandler extends TransferHandler {
 		Transferable t = support.getTransferable();
 		if (hasImageFlavor(t.getTransferDataFlavors())) {
 			try {
-				image = (BufferedImage) t.getTransferData(imageFlavor);
+				image = (Image) t.getTransferData(imageFlavor);
 				panel.setImage(image);
 				panel.repaint();
+				System.out.println("xfered");
 				return true;
 			} catch (UnsupportedFlavorException | IOException e) {
 				e.printStackTrace();
@@ -89,7 +91,7 @@ class ImageTransferHandler extends TransferHandler {
 	private boolean hasImageFlavor(DataFlavor[] flavors) {
 		for (DataFlavor f : flavors) {
 			if (imageFlavor.equals(f)) {
-				System.out.println("This has image flavor");
+				//System.out.println("This has image flavor");
 				return true;
 			}
 		}

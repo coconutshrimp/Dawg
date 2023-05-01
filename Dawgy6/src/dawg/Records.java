@@ -73,9 +73,7 @@ public class Records extends JPanel {
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// Create a list of previous contests
-		
-		Acontests.add("2021");
-		Acontests.add("2022");
+
 		Acontests.add("Current Contest");
 
 		String[] contests = Acontests.toArray(new String[Acontests.size()]);

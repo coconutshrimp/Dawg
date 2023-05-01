@@ -6,14 +6,23 @@ import javax.swing.table.DefaultTableModel;
 public class ContestantTableModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
-	static String column[] = { "Name", "ID", "Gender", "Owner's Name", "Grooming", "Obedience", "Socialization", "Fetch",
-	"Image" };
-	static Object data[][] = { { "Eddie", "1", "Male", "Jake", "N/A", "8", "9", "N/A", null } };
-	
-	public ContestantTableModel( Object[][] data, String[] columnNames) {
-		super(ContestantTableModel.data, ContestantTableModel.column);
+//	private static String[] columnNames = { "Name", "ID", "Gender", "Owner's Name", "Grooming", "Obedience",
+//	"Socialization", "Fetch", "Image" };
+	static Object[][] data = { {"Name", "ID", "Gender", "Owner's Name", "Grooming", "Obedience",
+		"Socialization", "Fetch", new ContestantIcon("/images/coyoteSad.png")} };
+	private Class<?>[] colClasses;
+
+		
+	public ContestantTableModel( Object[][] data1, String[] columnNames, Class<?>[] colClasses) {
+		super(data,columnNames);
+		this.colClasses = colClasses;
 	}
 
+	@Override
+	public Class<?> getColumnClass(int column) {
+		// TODO Auto-generated method stub
+		return colClasses[column];
+	}
 	
 	public boolean isCellEditable(int row, int col) {
 		// Note that the data/cell address is constant,
