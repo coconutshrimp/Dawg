@@ -94,10 +94,7 @@ public class ContestView extends JPanel {
 					ActualDog y = contestantList.get(i);
 
 					if (y.getName().equals(selectedName)) {
-						System.out.println("Name:" + y.getName());
-						System.out.println(selectedName);
-						System.out.println("Fetch:" + y.isFetch());
-						System.out.println("F score:" + y.getfScore());
+						
 						if (y.isGrooming())
 							temp.add("Grooming");
 						if (y.isObedience())
@@ -403,7 +400,7 @@ public class ContestView extends JPanel {
 					ActualDog dog = contestantList.get(i);
 					if (dog.getName().equals(doggo)) {
 						if (category.equals("Grooming") && (dog.getgScore() > -1 && dog.getgScore() <= 10)) {
-							System.out.println(dog.getName() + " " + dog.getgScore());
+							
 							finalizeButton.setEnabled(false);
 						}
 

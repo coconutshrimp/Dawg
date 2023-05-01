@@ -118,7 +118,7 @@ public class ContestDescription implements Serializable {
 			int o = doglist.get(i).getoScore();
 			int s = doglist.get(i).getsScore();
 			int f = doglist.get(i).getfScore();
-			System.out.println(n + "'s Scores: " + g + " " + o + " " + s + " " + f);
+			//System.out.println(n + "'s Scores: " + g + " " + o + " " + s + " " + f);
 		}
 
 	}
@@ -143,9 +143,9 @@ public class ContestDescription implements Serializable {
 		ActualDog x = new ActualDog(name, id, owner, gender, groom, obedience, social, fetch, icon);
 		doglist.add(x);
 		dogCount++;
-		for (int i = 0; i < dogCount; i++) {
-			System.out.println(doglist.get(i).getName());
-		}
+//		for (int i = 0; i < dogCount; i++) {
+//			System.out.println(doglist.get(i).getName());
+//		}
 
 	}
 

@@ -76,7 +76,6 @@ public class RegisterContainer extends JPanel {
 
 	public void resetDndImagePanel() {
 		dnd.resetImage();
-		System.out.println("changed");
 		dnd.invalidate();
 		repaint();
 	}

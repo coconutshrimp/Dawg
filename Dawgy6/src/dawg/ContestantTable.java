@@ -53,7 +53,7 @@ public class ContestantTable extends JTable {
 			output = new StringBuilder();
 			output.append("ROW SELECTION EVENT. ");
 			//outputSelection();
-			System.out.println(output);
+			//System.out.println(output);
 		}
 	}
 }

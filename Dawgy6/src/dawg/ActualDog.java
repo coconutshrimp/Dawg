@@ -27,8 +27,7 @@ public class ActualDog implements Serializable {
 		image = icon;
 		
 		
-		System.out.println("Name: " + name + " Owner: " + owner + " Gender: " + gender + " ID: " + id + " Fetch: "
-				+ fetch + " Grooming: " + grooming + " Socialization: " + socialization + " Obedience: " + obedience + " Image: " + image);
+		
 
 	}
 
